@@ -27,7 +27,7 @@ export default function Marketplace() {
           >
             <div className="relative h-80 overflow-hidden bg-[#3b3025]">
               <img
-                src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=1200&q=85"
+                src="/menswear.jpeg"
                 alt="Men's fashion"
                 className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
               />
@@ -69,7 +69,7 @@ export default function Marketplace() {
           >
             <div className="relative h-80 overflow-hidden bg-[#392d31]">
               <img
-                src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=85"
+                src="/womenswear.jpeg"
                 alt="Women's fashion"
                 className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
               />
