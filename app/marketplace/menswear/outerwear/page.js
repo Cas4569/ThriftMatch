@@ -1,46 +1,67 @@
 export default function MenswearOuterwear() {
   const products = [
     {
-      name: "Classic Denim Jacket",
+      name: "Washed Denim Fur Hooded Jacket with Faux-Fur Lining and Hood",
       price: "₹1,299",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1000&q=85",
+        "/menout1.jpeg",
     },
     {
-      name: "Black Bomber Jacket",
+      name: "Black Boxy Oversized Faux Leather Jacket with Spread Collar",
       price: "₹1,499",
       tag: "BEST SELLER",
       image:
-        "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1000&q=85",
+        "/menout2.jpeg",
     },
     {
-      name: "Classic Brown Jacket",
+      name: "Grey Washed Denim Bomber Jacket with Elasticized Waistband",
       price: "₹1,399",
       tag: "TOP RATED",
       image:
-        "https://images.unsplash.com/photo-1520975958225-5c5e6e5b5f5b?auto=format&fit=crop&w=1000&q=85",
+        "/menout3.jpeg",
     },
     {
-      name: "Relaxed Overshirt",
+      name: "Navy Blue and White Letterman-Style Varsity Jacket",
       price: "₹999",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=1000&q=85",
+        "/menout4.jpeg",
     },
     {
-      name: "Minimal Puffer Jacket",
+      name: "Classic Blue Denim Trucker Jacket",
       price: "₹1,599",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=1000&q=85",
+        "/menout5.jpeg",
     },
     {
-      name: "Classic Wool Coat",
+      name: "Colorblocked Patchwork Canvas Work Jacket",
       price: "₹1,799",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=1000&q=85",
+        "/menout6.jpeg",
+    },
+    {
+      name: "Brown Faux-Suede and Faux-Fur Lined Jacket with Chinese-Knot Buttons",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/menout7.jpeg",
+    },
+    {
+      name: "Vintage Style Japanese Souvenir Jacket with Reversible Style",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/menout8.jpeg",
+    },
+    {
+      name: "Brown Distressed Faux-Leather Bomber Jacket",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/menout9.jpeg",
     },
   ];
 

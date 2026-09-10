@@ -1,46 +1,60 @@
 export default function MenswearLowerwear() {
   const products = [
     {
-      name: "Classic Blue Jeans",
+      name: "Brown Plaid Wide-Leg Loose-Fit Casual Trousers",
       price: "₹899",
       tag: "BEST SELLER",
       image:
-        "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1000&q=85",
+        "/menlow1.jpeg",
     },
     {
-      name: "Relaxed Black Jeans",
+      name: "Dark Wash Blue Denim Jeans with Large White Dragons and Cloud Embroidery",
       price: "₹999",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1000&q=85",
+        "/menlow2.jpeg",
     },
     {
-      name: "Straight Fit Beige Trousers",
+      name: "Relaxed Straight-Leg Cut with Knife Pleat Trousers",
       price: "₹1,099",
       tag: "TOP RATED",
       image:
-        "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=1000&q=85",
+        "/menlow3.jpeg",
     },
     {
-      name: "Olive Cargo Pants",
+      name: "Pleated Baggy Denim Pants with a Barrel-Leg Silhouette",
       price: "₹1,199",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1517445312882-8e9d4c4a6f3c?auto=format&fit=crop&w=1000&q=85",
+        "/menlow4.jpeg",
     },
     {
-      name: "Classic Grey Trousers",
+      name: "Grunge Loose-Fit Denim Jeans",
       price: "₹949",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=1000&q=85",
+        "/menlow5.jpeg",
     },
     {
-      name: "Relaxed Cream Pants",
+      name: "Wide-Leg Denim Jeans with Pink Cherry Blossom Graphic Print",
       price: "₹1,049",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1624378440070-33a5c1b8e0c2?auto=format&fit=crop&w=1000&q=85",
+        "/menlow6.jpeg",
+    },
+    {
+      name: "Dark Grey Acid-Wash Baggy Cargo Denim Jeans",
+      price: "₹1,049",
+      tag: "",
+      image:
+        "/menlow7.jpeg",
+    },
+    {
+      name: "Streetwear Baggy Fit Jeans with Mid-Rise Waist",
+      price: "₹1,049",
+      tag: "",
+      image:
+        "/menlow8.jpeg",
     },
   ];
 

@@ -1,40 +1,46 @@
 export default function MenswearFootwear() {
   const products = [
     {
-      name: "Classic White Sneakers",
+      name: "Two Strap Leather Biker Boots",
       price: "₹899",
       image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=85",
+        "/menfoot1.jpeg",
     },
     {
-      name: "Vintage Black Runners",
+      name: "Burgundy Rub-Off Leather Combat Boots",
       price: "₹1,199",
       image:
-        "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1000&q=85",
+        "/menfoot2.jpeg",
     },
     {
-      name: "Retro Court Sneakers",
+      name: "Brown Leather Timberland Roll-Top Boots",
       price: "₹999",
       image:
-        "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=1000&q=85",
+        "/menfoot3.jpeg",
     },
     {
-      name: "Leather Chelsea Boots",
+      name: "Shiny Black Patent Harness Ankle Boots",
       price: "₹1,499",
       image:
-        "https://images.unsplash.com/photo-1638247025967-b4e38f787b76?auto=format&fit=crop&w=1000&q=85",
+        "/menfoot4.jpeg",
     },
     {
-      name: "Classic Brown Loafers",
+      name: "Black Solid Ankle-High Shaft Chelsea Boots",
       price: "₹1,299",
       image:
-        "https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=1000&q=85",
+        "/menfoot5.jpeg",
     },
     {
-      name: "Everyday Black Sneakers",
+      name: "Black Leather Moc-Toe Slip-On Loafers",
       price: "₹1,099",
       image:
-        "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1000&q=85",
+        "/menfoot6.jpeg",
+    },
+    {
+      name: "Retro Styled White Shoes with Metallic Overlay",
+      price: "₹1,099",
+      image:
+        "/menfoot7.jpeg",
     },
   ];
 

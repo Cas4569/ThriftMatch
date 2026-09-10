@@ -1,46 +1,61 @@
 export default function UpperwearPage() {
   const products = [
     {
-      name: "Classic White T-Shirt",
+      name: "Brown and beige Plaid Checked Casual Shirt",
       price: "₹599",
       tag: "BEST SELLER",
       image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1000&q=85",
+        "/menup1.jpeg",
     },
     {
-      name: "Oversized Black T-Shirt",
+      name: "Vintage Maroon Marvel Spider-Man Graphic T-shirt",
       price: "₹699",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=1000&q=85",
+        "/menup2.jpeg",
     },
     {
-      name: "Relaxed Blue Shirt",
+      name: "Black and White Pinstripe Short-Sleeve Button-Down Shirt",
       price: "₹899",
       tag: "TOP RATED",
       image:
-        "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1000&q=85",
+        "/menup3.jpeg",
     },
     {
-      name: "Classic Polo",
+      name: "Dark Navy Blue Long-Sleeve Henley T-shirt with Buttoned Placket",
       price: "₹749",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1625910513413-5fc45f8c6d6b?auto=format&fit=crop&w=1000&q=85",
+        "/henley.jpeg",
     },
     {
-      name: "Relaxed Cream Shirt",
+      name: "Mandarin-Style Embroidered Linen Shirt",
       price: "₹999",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=1000&q=85",
+        "/menup5.jpeg",
     },
     {
-      name: "Minimal Grey Sweatshirt",
+      name: "Short-Sleeve Navy Layered Graphics T-shirt",
       price: "₹1,099",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1000&q=85",
+        "/menup6.jpeg", 
+    },
+    {
+      name: "Relaxed-Fit Street Style Long-Sleeve",
+      price: "₹1,099",
+      tag: "",
+      image:
+        "/menup7.jpeg", 
+    },
+    {
+      
+      name: "Short-Sleeve Casual Button-down Shirt",
+      price: "₹1,099",
+      tag: "",
+      image:
+        "/menup8.jpeg", 
     },
   ];
 

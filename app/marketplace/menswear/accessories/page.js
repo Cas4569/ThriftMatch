@@ -1,46 +1,67 @@
 export default function MenswearAccessories() {
   const products = [
     {
-      name: "Classic Leather Watch",
+      name: "Washed Denim Brown Faux-Suede Baseball Cap",
       price: "₹899",
       tag: "TOP RATED",
       image:
-        "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=1000&q=85",
+        "/menac1.jpeg",
     },
     {
-      name: "Minimal Black Backpack",
+      name: "Brown Leather Messenger Bag With Flap Front",
       price: "₹1,099",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=85",
+        "/menac2.jpeg",
     },
     {
-      name: "Classic Sunglasses",
+      name: "Y2K Aesthetic Layering Necklace Set",
       price: "₹699",
       tag: "BEST SELLER",
       image:
-        "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1000&q=85",
+        "/menac3.jpeg",
     },
     {
-      name: "Leather Belt",
+      name: "Steampunk Analog Wristwatch with Bronze-Toned Circular Case",
       price: "₹499",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=1000&q=85",
+        "/menac4.jpeg",
     },
     {
-      name: "Everyday Cap",
+      name: "Brown Canvas and Leather Shoulder Bag",
       price: "₹399",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=1000&q=85",
+        "/menac5.jpeg",
     },
     {
-      name: "Classic Crossbody Bag",
+      name: "Multi-Piece Punk Rock Studded Bracelet Set",
       price: "₹799",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=85",
+        "/menac6.jpeg",
+    },
+    {
+      name: "Silver-Toned Chain Necklace Set",
+      price: "₹799",
+      tag: "",
+      image:
+        "/menac7.jpeg",
+    },
+    {
+      name: "6 Piece Gothic Style Metal Ring Set",
+      price: "₹799",
+      tag: "",
+      image:
+        "/menac8.jpeg",
+    },
+    {
+      name: "Distressed Brown Leather Belts Sett",
+      price: "₹799",
+      tag: "",
+      image:
+        "/menac9.jpeg",
     },
   ];
 
