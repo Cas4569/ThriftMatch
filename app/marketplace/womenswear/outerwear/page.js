@@ -1,11 +1,11 @@
 export default function WomenswearOuterwear() {
   const products = [
     {
-      name: "Classic Denim Jacket",
+      name: "Grey Shearling and Leather Double-Breasted Winter Coat",
       price: "₹1,299",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=1000&q=85",
+        "/womenout1.jpeg",
     },
     {
       name: "Black Bomber Jacket",
@@ -15,33 +15,76 @@ export default function WomenswearOuterwear() {
         "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1000&q=85",
     },
     {
-      name: "Classic Brown Jacket",
+      name: "Brown Oversized Trench Overcoat",
       price: "₹1,399",
       tag: "TOP RATED",
       image:
-        "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1000&q=85",
+        "/shakira.jpeg",
     },
     {
-      name: "Relaxed Overshirt",
+      name: "Brown Fur-Trim Shearling Jacket",
       price: "₹999",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1000&q=85",
+        "/womenout3.jpeg",
     },
     {
-      name: "Minimal Puffer Jacket",
+      name: "Y2K Brown and Green Gradient Knit Cardigan",
       price: "₹1,599",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=1000&q=85",
+        "/womenout4.jpeg",
     },
     {
-      name: "Classic Wool Coat",
+      name: "Brown Faux-Suede Jacket",
       price: "₹1,799",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=1000&q=85",
+        "/womenout5.jpeg",
     },
+    {
+      name: "Open Crochet Tie-Front Cardigan with V-neckline",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/womenout6.jpeg",
+    },
+    {
+      name: "Dark Wash Denim Cape Jacket",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/womenout7.jpeg",
+    },
+    {
+      name: "Brown Distressed Leather Moto Jacket with Stand Collar",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/womenout8.jpeg",
+    },
+    {
+      name: "Grey Cable-Knit V-neck Button-Down Cardigan with Dropped Shoulders",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/womenout9.jpeg",
+    },
+    {
+      name: "Faux Suede and Faux-Fur Winter Jacket",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/womenout10.jpeg",
+    },
+    {
+      name: "Y2K Styled Babydoll Cardigan Hoodie",
+      price: "₹1,799",
+      tag: "",
+      image:
+        "/womenout11.jpeg",
+    },
+
   ];
 
   return (

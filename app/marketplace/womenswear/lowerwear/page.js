@@ -1,46 +1,67 @@
 export default function WomenswearLowerwear() {
   const products = [
     {
-      name: "Classic Blue Jeans",
+      name: "Y2K Brown Low-Rise Skirt",
       price: "₹899",
       tag: "BEST SELLER",
       image:
-        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1000&q=85",
+        "/womenlow1.jpeg",
     },
     {
-      name: "Relaxed Black Jeans",
+      name: "Brown Wide-Wale Corduroy Super-Flare Pants",
       price: "₹999",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?auto=format&fit=crop&w=1000&q=85",
+        "/womenlow2.jpeg",
     },
     {
-      name: "Straight Fit Beige Trousers",
+      name: "Floral-Printed Mermaid Skirt with Asymmetrical Ruffled Hem",
       price: "₹1,099",
       tag: "TOP RATED",
       image:
-        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=1000&q=85",
+        "/womenlow3.jpeg",
     },
     {
-      name: "Relaxed Cream Pants",
+      name: "Dark Wash Flared Denim Jeans featuring Floral Embroidery",
       price: "₹1,049",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?auto=format&fit=crop&w=1000&q=85",
+        "/womenlow4.jpeg",
     },
     {
-      name: "Classic Grey Trousers",
+      name: "Vintage Charcoal-Grey Denim Midi Skirt",
       price: "₹949",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1506629905607-d9b1e4c7c5d2?auto=format&fit=crop&w=1000&q=85",
+        "/womenlow5.jpeg",
     },
     {
-      name: "Wide Leg Black Pants",
+      name: "High-Waist Denim Fishtail Midi Skirt",
       price: "₹1,199",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1000&q=85",
+        "/womenlow6.jpeg",
+    },
+    {
+      name: "Y2K Low-Rise Blue Denim Jeans",
+      price: "₹1,199",
+      tag: "",
+      image:
+        "/womenlow7.jpeg",
+    },
+    {
+      name: "Brown Wide-Leg Trousers featuring a Folded High Waistband",
+      price: "₹1,199",
+      tag: "",
+      image:
+        "/womenlow8.jpeg",
+    },
+    {
+      name: "Brown Corduroy Wide-Leg Trousers with a Low-Rise Waist",
+      price: "₹1,199",
+      tag: "",
+      image:
+        "/womenlow9.jpeg",
     },
   ];
 

@@ -1,46 +1,88 @@
 export default function WomenswearAccessories() {
   const products = [
     {
-      name: "Minimal Gold Watch",
+      name: "Brown Crochet Fringed Scarf",
       price: "₹899",
       tag: "TOP RATED",
-      image:
-        "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=1000&q=85",
+      image:"/women1.jpeg"
+        
     },
     {
-      name: "Classic Black Handbag",
+      name: "Chandelier Earrings",
       price: "₹1,099",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1000&q=85",
+        "/women2.jpeg",
     },
     {
-      name: "Minimal Sunglasses",
+      name: "Woollen Check Scarf",
       price: "₹699",
       tag: "BEST SELLER",
       image:
-        "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1000&q=85",
+        "/women3.jpeg",
     },
     {
-      name: "Classic Leather Belt",
+      name: "Handcrafted wire-wrapped Link Bracelet",
       price: "₹499",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=1000&q=85",
+        "/women4.jpeg",
     },
     {
-      name: "Everyday Shoulder Bag",
+      name: "Vintage Brown Shoulder Bag",
       price: "₹799",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=1000&q=85",
+        "/women5.jpeg",
     },
     {
-      name: "Minimal Hair Clip Set",
+      name: "Silver Multi-Layered Charm Strand Necklace",
       price: "₹399",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=85",
+        "/women6.jpeg",
+    },
+    {
+      name: "Dome-Shaped Drop Earrings",
+      price: "₹399",
+      tag: "",
+      image:
+        "/women7.jpeg",
+    },
+    {
+      name: "Hand-Tooled Leather Shoulder Bag",
+      price: "₹399",
+      tag: "",
+      image:
+        "/women8.jpeg",
+    },
+    {
+      name: "Vintage Antique-Style Pendant Necklaces",
+      price: "₹399",
+      tag: "",
+      image:
+        "/womenac9.jpeg",
+    },
+    {
+      name: "Oxidised Silver Cuff Bracelet",
+      price: "₹399",
+      tag: "",
+      image:
+        "/womenac10.jpeg",
+    },
+    {
+      name: "Wide Boho Disc-Belt",
+      price: "₹399",
+      tag: "",
+      image:
+        "/womenac11.jpeg",
+    },
+    {
+      name: "Y2K Stackable 7 Piece Ring Set",
+      price: "₹399",
+      tag: "",
+      image:
+        "/womenac12.jpeg",
     },
   ];
 

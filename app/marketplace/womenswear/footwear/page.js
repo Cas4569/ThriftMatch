@@ -1,46 +1,81 @@
 export default function WomenswearFootwear() {
   const products = [
     {
-      name: "Classic White Sneakers",
+      name: "Brown Strappy Wedge Sandals",
       price: "₹899",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=85",
+        "/womenfoot1.jpeg",
     },
     {
-      name: "Minimal Black Sneakers",
+      name: "Y2K-Style Chunky Platform Mule Sandals",
       price: "₹1,099",
       tag: "TOP RATED",
       image:
-        "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=1000&q=85",
+        "/womenfoot2.jpeg",
     },
     {
-      name: "Classic Beige Loafers",
+      name: "Suede Platform Heels",
       price: "₹1,199",
       tag: "BEST SELLER",
       image:
-        "https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=1000&q=85",
+        "/womenfoot3.jpeg",
     },
     {
-      name: "Retro Court Sneakers",
+      name: "Brown Leather Chunky Block Heel Knee-High Boots",
       price: "₹999",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1000&q=85",
+        "/womenfoot4.jpeg",
     },
     {
-      name: "Classic Brown Boots",
+      name: "Brown Suede Mary Jane Flats",
       price: "₹1,499",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=1000&q=85",
+        "/womenfoot5.jpeg",
     },
     {
-      name: "Everyday Black Flats",
+      name: "Vintage Brown Mid Heel Pumps",
       price: "₹799",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=1000&q=85",
+        "/womenfoot6.jpeg",
+    },
+     {
+      name: "Round Toe Mudd-Pumps",
+      price: "₹799",
+      tag: "",
+      image:
+        "/womenfoot7.jpeg",
+    },
+     {
+      name: "Olive Green Leather Clogs with Braided Strap",
+      price: "₹799",
+      tag: "",
+      image:
+        "/womenfoot8.jpeg",
+    },
+     {
+      name: "Embossed-Leather Slingback Shoes",
+      price: "₹799",
+      tag: "",
+      image:
+        "/womenfoot9.jpeg",
+    },
+     {
+      name: "Wedge Ballet Flat Shoes",
+      price: "₹799",
+      tag: "",
+      image:
+        "/womenfoot10.jpeg",
+    },
+     {
+      name: "White Low-Top Platform Sneakers",
+      price: "₹799",
+      tag: "",
+      image:
+        "/womenfoot11.jpeg",
     },
   ];
 

@@ -1,46 +1,67 @@
 export default function WomenswearUpperwear() {
   const products = [
     {
-      name: "Classic White Top",
+      name: "Black Satin Long-Sleeve Top",
       price: "₹599",
       tag: "BEST SELLER",
       image:
-        "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1000&q=85",
+        "/womenup1.jpeg",
     },
     {
-      name: "Relaxed Black Top",
+      name: "Grey Short-Sleeve Cable-Knit Button-Up Cardigan",
       price: "₹699",
       tag: "TRENDING",
       image:
-        "https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&w=1000&q=85",
+        "/womenup2.jpeg", 
     },
     {
-      name: "Oversized Cream Shirt",
+      name: "Burgundy Long-Sleeve Y2K Henley Top",
       price: "₹899",
       tag: "TOP RATED",
       image:
-        "https://images.unsplash.com/photo-1605763240000-7e93b172d754?auto=format&fit=crop&w=1000&q=85",
+        "/womenup3.jpeg",
     },
     {
-      name: "Minimal Black Blouse",
+      name: "Layered Vintage-Style Brown Camisole",
       price: "₹749",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1564257577054-0e2c5f5f5f5f?auto=format&fit=crop&w=1000&q=85",
+        "/womenup4.jpeg",
     },
     {
-      name: "Soft Pink Shirt",
+      name: "Bollywood-Style Hand-Embroidered Georgette Tunic",
       price: "₹999",
       tag: "NEW FIND",
       image:
-        "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?auto=format&fit=crop&w=1000&q=85",
+        "/bolly.jpeg",
     },
     {
-      name: "Relaxed Knit Sweater",
+      name: "White Short-Sleeve Oversized Graphic T-shirt",
       price: "₹1,099",
       tag: "",
       image:
-        "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=1000&q=85",
+        "/womenup6.jpeg",
+    },
+     {
+      name: "Y2K Brown Boho Glam Camisole",
+      price: "₹1,099",
+      tag: "",
+      image:
+        "/womenup7.jpeg",
+    },
+     {
+      name: "Distressed Acid-Washed Black Oversized T-Shirt",
+      price: "₹1,099",
+      tag: "",
+      image:
+        "/womenup8.jpeg",
+    },
+     {
+      name: "Black and White Striped Sweetheart-Neck Top",
+      price: "₹1,099",
+      tag: "",
+      image:
+        "/womenup9.jpeg",
     },
   ];
 
