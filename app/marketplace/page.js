@@ -25,12 +25,12 @@ export default function Marketplace() {
             href="/marketplace/menswear"
             className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#c6a15b] hover:shadow-2xl"
           >
-            <div className="relative h-80 overflow-hidden bg-[#3b3025]">
+            <div className="relative h-80 overflow-visible bg-[#3b3025]">
               <img
-                src="/menswear.jpeg"
-                alt="Men's fashion"
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-              />
+  src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=1200&q=85"
+  alt="Men's fashion"
+  className="relative z-20 h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.04] group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.45)]"
+/>
             </div>
 
             <div className="p-8">
@@ -67,11 +67,11 @@ export default function Marketplace() {
             href="/marketplace/womenswear"
             className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#d19a9a] hover:shadow-2xl"
           >
-            <div className="relative h-80 overflow-hidden bg-[#392d31]">
+            <div className="relative h-80 overflow-visible bg-[#392d31]">
               <img
                 src="/womenswear.jpeg"
                 alt="Women's fashion"
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                className="relative z-20 h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.04] group-hover:shadow-[0_35px_70px_rgba(0,0,0,0.65)]"
               />
             </div>
 
