@@ -77,6 +77,13 @@ export default function WomenswearFootwear() {
       image:
         "/womenfoot11.jpeg",
     },
+    {
+      name: "Slouchy Mid-Calf Boots with Wedge Heel",
+      price: "₹799",
+      tag: "",
+      image:
+        "/womenfoot12.jpeg",
+    },
   ];
 
   return (

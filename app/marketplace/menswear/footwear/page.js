@@ -42,6 +42,18 @@ export default function MenswearFootwear() {
       image:
         "/menfoot7.jpeg",
     },
+  {
+      name: "Deconstructed Ripped Suede Mesh Upper Shoes",
+      price: "₹1,099",
+      image:
+        "/menfoot8.jpeg",
+    },
+    {
+      name: "Dark Brown Leather Derby Oxford Shoes",
+      price: "₹1,099",
+      image:
+        "/menfoot9.jpeg",
+    },
   ];
 
   return (

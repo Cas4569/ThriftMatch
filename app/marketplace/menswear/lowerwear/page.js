@@ -56,6 +56,13 @@ export default function MenswearLowerwear() {
       image:
         "/menlow8.jpeg",
     },
+    {
+      name: "Olive Green, Wide-Leg Baggy Denim Jeans with Washed Finis",
+      price: "₹1,049",
+      tag: "",
+      image:
+        "/menlow9.jpeg",
+    },
   ];
 
   return (

@@ -1,6 +1,6 @@
 export default function Marketplace() {
   return (
-    <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
+    <main className="min-h-screen bg-[#2d1805] px-6 py-14 text-[#f5f0e8]">
       <div className="mx-auto max-w-7xl">
 
         <div className="mb-14">

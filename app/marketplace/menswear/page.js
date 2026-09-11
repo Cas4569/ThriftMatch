@@ -4,32 +4,33 @@ export default function Menswear() {
       name: "Footwear",
       description: "Sneakers, boots, loafers & more.",
       image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=85",
+        "/menfootcover.jpeg",
     },
     {
       name: "Upperwear",
       description: "Tees, shirts, polos & sweatshirts.",
       image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=85",
+        "/menupcover.jpeg",
     },
     {
       name: "Lowerwear",
       description: "Denim, cargos, trousers & more.",
       image:
-        "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1200&q=85",
+        "/menlowcover.jpeg",
     },
     {
       name: "Accessories",
       description: "Watches, bags, caps & finishing touches.",
       image:
-        "https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?auto=format&fit=crop&w=1200&q=85",
+        "/menacccover.jpeg",
     },
     {
       name: "Outerwear",
       description: "Jackets, coats & statement layers.",
       image:
-        "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1200&q=85",
-    },
+        "/menoutcover.jpeg",
+    }
+    
   ];
 
   return (

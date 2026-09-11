@@ -4,31 +4,31 @@ export default function Womenswear() {
       name: "Footwear",
       description: "Sneakers, heels, boots & more.",
       image:
-        "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=1200&q=85",
+        "/womenfootcover.jpeg",
     },
     {
       name: "Upperwear",
       description: "Tops, shirts, blouses & knitwear.",
       image:
-        "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1200&q=85",
+        "/womenupcover.jpeg",
     },
     {
       name: "Lowerwear",
       description: "Jeans, skirts, trousers & more.",
       image:
-  "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=1200&q=85",
+  "/womenlowcover.jpeg",
     },
     {
       name: "Accessories",
       description: "Bags, jewellery, watches & finishing touches.",
       image:
-        "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=85",
+        "/womenaccover.jpeg",
     },
     {
       name: "Outerwear",
       description: "Jackets, coats & statement layers.",
       image:
-  "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85",
+  "/womenoutcover.jpeg",
     },
   ];
 

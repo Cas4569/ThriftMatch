@@ -57,6 +57,14 @@ export default function UpperwearPage() {
       image:
         "/menup8.jpeg", 
     },
+    {
+      
+      name: "Graphic Polo Shirt with Distressed Fabric",
+      price: "₹1,099",
+      tag: "",
+      image:
+        "/menup9.jpeg", 
+    },
   ];
 
   return (
