@@ -9,7 +9,7 @@ export default function Home() {
         </h1>
 
         <div className="hidden items-center gap-8 text-sm font-medium md:flex">
-          <a href="#" className="hover:opacity-60 transition">
+          <a href="/discover" className="hover:opacity-60 transition">
             Discover
           </a>
 
