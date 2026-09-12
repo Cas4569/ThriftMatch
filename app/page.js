@@ -15,7 +15,7 @@ export default function Home() {
 
       
 
-          <a href="#" className="hover:opacity-60 transition">
+          <a href="Sellers" className="hover:opacity-60 transition">
             For Sellers
           </a>
 
@@ -57,9 +57,7 @@ export default function Home() {
             Explore Fashion →
             </a>
 
-            <button className="rounded-full border border-[#171717] px-8 py-4 font-semibold transition hover:bg-[#171717] hover:text-white">
-              I'm a Seller
-            </button>
+            
 
           </div>
 
@@ -74,16 +72,16 @@ export default function Home() {
             className="absolute right-0 top-0 h-[430px] w-[72%] rounded-[2rem] bg-cover bg-center shadow-2xl"
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85')",
+                "url('/menhome.jpeg')",
             }}
           />
 
           {/* Second image */}
           <div
-            className="absolute bottom-0 left-0 h-[260px] w-[48%] rounded-[2rem] border-8 border-[#f5f1e8] bg-cover bg-center shadow-xl"
+            className="absolute bottom-0 left-0 h-[320px] w-[48%] rounded-[2rem] border-8 border-[#f5f1e8] bg-cover bg-center shadow-xl"
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=700&q=85')",
+                "url('/womenhome.jpeg')",
             }}
           />
 
