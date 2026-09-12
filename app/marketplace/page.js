@@ -1,9 +1,9 @@
 export default function Marketplace() {
   return (
-    <main className="min-h-screen bg-[#2d1805] px-6 py-14 text-[#f5f0e8]">
+    <main className="min-h-screen bg-[#0f0616] px-6 py-14 text-[#f5f0e8]">
       <div className="mx-auto max-w-7xl">
 
-        <div className="mb-14">
+        <div className="mb-10">
           <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-[#c6a15b]">
             THRIFTMATCH / MARKETPLACE
           </p>
@@ -27,10 +27,10 @@ export default function Marketplace() {
           >
             <div className="relative h-80 overflow-visible bg-[#3b3025]">
               <img
-  src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=1200&q=85"
-  alt="Men's fashion"
-  className="relative z-20 h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.04] group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.45)]"
-/>
+                src="/menswear.jpeg"
+                alt="Men's fashion"
+                className="relative z-20 h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.04] group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.45)]"
+              />
             </div>
 
             <div className="p-8">
