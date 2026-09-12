@@ -19,9 +19,12 @@ export default function Home() {
             For Sellers
           </a>
 
-          <button className="rounded-full bg-[#171717] px-5 py-2.5 text-white hover:scale-105 transition">
-            Sign In
-          </button>
+          <a
+  href="/signin"
+  className="rounded-full bg-[#171717] px-5 py-2.5 text-white hover:scale-105 transition"
+>
+  Sign In
+</a>
         </div>
       </nav>
 
