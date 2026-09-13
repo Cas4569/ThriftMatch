@@ -1,69 +1,14 @@
-export default function MenswearOuterwear() {
-  const products = [
-    {
-      name: "Washed Denim Fur Hooded Jacket with Faux-Fur Lining and Hood",
-      price: "₹1,299",
-      tag: "TRENDING",
-      image:
-        "/menout1.jpeg",
-    },
-    {
-      name: "Black Boxy Oversized Faux Leather Jacket with Spread Collar",
-      price: "₹1,499",
-      tag: "BEST SELLER",
-      image:
-        "/menout2.jpeg",
-    },
-    {
-      name: "Grey Washed Denim Bomber Jacket with Elasticized Waistband",
-      price: "₹1,399",
-      tag: "TOP RATED",
-      image:
-        "/menout3.jpeg",
-    },
-    {
-      name: "Navy Blue and White Letterman-Style Varsity Jacket",
-      price: "₹999",
-      tag: "",
-      image:
-        "/menout4.jpeg",
-    },
-    {
-      name: "Classic Blue Denim Trucker Jacket",
-      price: "₹1,599",
-      tag: "NEW FIND",
-      image:
-        "/menout5.jpeg",
-    },
-    {
-      name: "Colorblocked Patchwork Canvas Work Jacket",
-      price: "₹1,799",
-      tag: "",
-      image:
-        "/menout6.jpeg",
-    },
-    {
-      name: "Brown Faux-Suede and Faux-Fur Lined Jacket with Chinese-Knot Buttons",
-      price: "₹1,799",
-      tag: "",
-      image:
-        "/menout7.jpeg",
-    },
-    {
-      name: "Vintage Style Japanese Souvenir Jacket with Reversible Style",
-      price: "₹1,799",
-      tag: "",
-      image:
-        "/menout8.jpeg",
-    },
-    {
-      name: "Brown Distressed Faux-Leather Bomber Jacket",
-      price: "₹1,799",
-      tag: "",
-      image:
-        "/menout9.jpeg",
-    },
-  ];
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+export default async function MenswearOuterwear() {
+  const q = query(
+    collection(db, "products"),
+    where("category", "==", "menswear"),
+    where("subcategory", "==", "outerwear")
+  );
+  const snapshot = await getDocs(q);
+  const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
@@ -92,7 +37,7 @@ export default function MenswearOuterwear() {
         <section className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <article
-              key={product.name}
+              key={product.id}
               className="overflow-hidden rounded-2xl border border-[#3a342c] bg-[#211e1a]"
             >
               <div className="relative aspect-[4/5] overflow-hidden">

@@ -1,90 +1,14 @@
-export default function WomenswearAccessories() {
-  const products = [
-    {
-      name: "Brown Crochet Fringed Scarf",
-      price: "₹899",
-      tag: "TOP RATED",
-      image:"/women1.jpeg"
-        
-    },
-    {
-      name: "Chandelier Earrings",
-      price: "₹1,099",
-      tag: "TRENDING",
-      image:
-        "/women2.jpeg",
-    },
-    {
-      name: "Woollen Check Scarf",
-      price: "₹699",
-      tag: "BEST SELLER",
-      image:
-        "/women3.jpeg",
-    },
-    {
-      name: "Handcrafted wire-wrapped Link Bracelet",
-      price: "₹499",
-      tag: "",
-      image:
-        "/women4.jpeg",
-    },
-    {
-      name: "Vintage Brown Shoulder Bag",
-      price: "₹799",
-      tag: "NEW FIND",
-      image:
-        "/women5.jpeg",
-    },
-    {
-      name: "Silver Multi-Layered Charm Strand Necklace",
-      price: "₹399",
-      tag: "",
-      image:
-        "/women6.jpeg",
-    },
-    {
-      name: "Dome-Shaped Drop Earrings",
-      price: "₹399",
-      tag: "",
-      image:
-        "/women7.jpeg",
-    },
-    {
-      name: "Hand-Tooled Leather Shoulder Bag",
-      price: "₹399",
-      tag: "",
-      image:
-        "/women8.jpeg",
-    },
-    {
-      name: "Vintage Antique-Style Pendant Necklaces",
-      price: "₹399",
-      tag: "",
-      image:
-        "/womenac9.jpeg",
-    },
-    {
-      name: "Oxidised Silver Cuff Bracelet",
-      price: "₹399",
-      tag: "",
-      image:
-        "/womenac10.jpeg",
-    },
-    {
-      name: "Wide Boho Disc-Belt",
-      price: "₹399",
-      tag: "",
-      image:
-        "/womenac11.jpeg",
-    },
-    {
-      name: "Y2K Stackable 7 Piece Ring Set",
-      price: "₹399",
-      tag: "",
-      image:
-        "/womenac12.jpeg",
-    },
-  ];
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+export default async function WomenswearAccessories() {
+  const q = query(
+    collection(db, "products"),
+    where("category", "==", "womenswear"),
+    where("subcategory", "==", "accessories")
+  );
+  const snapshot = await getDocs(q);
+  const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
@@ -106,14 +30,14 @@ export default function WomenswearAccessories() {
           </div>
 
           <p className="text-sm font-bold uppercase tracking-widest text-[#aaa399]">
-            6 pieces
+            {products.length} pieces
           </p>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <div
-              key={product.name}
+              key={product.id}
               className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#d19a9a] hover:shadow-2xl"
             >
               <div className="relative h-80 overflow-hidden">

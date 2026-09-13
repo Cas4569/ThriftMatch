@@ -1,69 +1,14 @@
-export default function WomenswearLowerwear() {
-  const products = [
-    {
-      name: "Y2K Brown Low-Rise Skirt",
-      price: "₹899",
-      tag: "BEST SELLER",
-      image:
-        "/womenlow1.jpeg",
-    },
-    {
-      name: "Brown Wide-Wale Corduroy Super-Flare Pants",
-      price: "₹999",
-      tag: "TRENDING",
-      image:
-        "/womenlow2.jpeg",
-    },
-    {
-      name: "Floral-Printed Mermaid Skirt with Asymmetrical Ruffled Hem",
-      price: "₹1,099",
-      tag: "TOP RATED",
-      image:
-        "/womenlow3.jpeg",
-    },
-    {
-      name: "Dark Wash Flared Denim Jeans featuring Floral Embroidery",
-      price: "₹1,049",
-      tag: "",
-      image:
-        "/womenlow4.jpeg",
-    },
-    {
-      name: "Vintage Charcoal-Grey Denim Midi Skirt",
-      price: "₹949",
-      tag: "NEW FIND",
-      image:
-        "/womenlow5.jpeg",
-    },
-    {
-      name: "High-Waist Denim Fishtail Midi Skirt",
-      price: "₹1,199",
-      tag: "",
-      image:
-        "/womenlow6.jpeg",
-    },
-    {
-      name: "Y2K Low-Rise Blue Denim Jeans",
-      price: "₹1,199",
-      tag: "",
-      image:
-        "/womenlow7.jpeg",
-    },
-    {
-      name: "Brown Wide-Leg Trousers featuring a Folded High Waistband",
-      price: "₹1,199",
-      tag: "",
-      image:
-        "/womenlow8.jpeg",
-    },
-    {
-      name: "Brown Corduroy Wide-Leg Trousers with a Low-Rise Waist",
-      price: "₹1,199",
-      tag: "",
-      image:
-        "/womenlow9.jpeg",
-    },
-  ];
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+export default async function WomenswearLowerwear() {
+  const q = query(
+    collection(db, "products"),
+    where("category", "==", "womenswear"),
+    where("subcategory", "==", "lowerwear")
+  );
+  const snapshot = await getDocs(q);
+  const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
@@ -85,14 +30,14 @@ export default function WomenswearLowerwear() {
           </div>
 
           <p className="text-sm font-bold uppercase tracking-widest text-[#aaa399]">
-            6 pieces
+            {products.length} pieces
           </p>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <div
-              key={product.name}
+              key={product.id}
               className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#d19a9a] hover:shadow-2xl"
             >
               <div className="relative h-80 overflow-hidden">

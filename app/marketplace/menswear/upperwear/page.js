@@ -1,71 +1,14 @@
-export default function UpperwearPage() {
-  const products = [
-    {
-      name: "Brown and beige Plaid Checked Casual Shirt",
-      price: "₹599",
-      tag: "BEST SELLER",
-      image:
-        "/menup1.jpeg",
-    },
-    {
-      name: "Vintage Maroon Marvel Spider-Man Graphic T-shirt",
-      price: "₹699",
-      tag: "TRENDING",
-      image:
-        "/menup2.jpeg",
-    },
-    {
-      name: "Black and White Pinstripe Short-Sleeve Button-Down Shirt",
-      price: "₹899",
-      tag: "TOP RATED",
-      image:
-        "/menup3.jpeg",
-    },
-    {
-      name: "Dark Navy Blue Long-Sleeve Henley T-shirt with Buttoned Placket",
-      price: "₹749",
-      tag: "",
-      image:
-        "/henley.jpeg",
-    },
-    {
-      name: "Mandarin-Style Embroidered Linen Shirt",
-      price: "₹999",
-      tag: "NEW FIND",
-      image:
-        "/menup5.jpeg",
-    },
-    {
-      name: "Short-Sleeve Navy Layered Graphics T-shirt",
-      price: "₹1,099",
-      tag: "",
-      image:
-        "/menup6.jpeg", 
-    },
-    {
-      name: "Relaxed-Fit Street Style Long-Sleeve",
-      price: "₹1,099",
-      tag: "",
-      image:
-        "/menup7.jpeg", 
-    },
-    {
-      
-      name: "Short-Sleeve Casual Button-down Shirt",
-      price: "₹1,099",
-      tag: "",
-      image:
-        "/menup8.jpeg", 
-    },
-    {
-      
-      name: "Graphic Polo Shirt with Distressed Fabric",
-      price: "₹1,099",
-      tag: "",
-      image:
-        "/menup9.jpeg", 
-    },
-  ];
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+export default async function UpperwearPage() {
+  const q = query(
+    collection(db, "products"),
+    where("category", "==", "menswear"),
+    where("subcategory", "==", "upperwear")
+  );
+  const snapshot = await getDocs(q);
+  const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
@@ -87,15 +30,15 @@ export default function UpperwearPage() {
           </div>
 
           <p className="text-sm font-bold uppercase tracking-widest text-[#aaa399]">
-            6 pieces
+            {products.length} pieces
           </p>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <div
-              key={product.name}
-              className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#c6a15b] hover:shadow-2xl"
+              key={product.id}
+              className="group overflow-hidden rounded-4xl border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#c6a15b] hover:shadow-2xl"
             >
               <div className="relative h-80 overflow-hidden">
                 <img
@@ -104,11 +47,6 @@ export default function UpperwearPage() {
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
 
-                {product.tag && (
-                  <div className="absolute left-4 top-4 rounded-full bg-[#171512]/80 px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#f5f0e8] backdrop-blur">
-                    {product.tag}
-                  </div>
-                )}
               </div>
 
               <div className="p-6">

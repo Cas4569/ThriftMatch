@@ -1,90 +1,14 @@
-export default function WomenswearFootwear() {
-  const products = [
-    {
-      name: "Brown Strappy Wedge Sandals",
-      price: "₹899",
-      tag: "TRENDING",
-      image:
-        "/womenfoot1.jpeg",
-    },
-    {
-      name: "Y2K-Style Chunky Platform Mule Sandals",
-      price: "₹1,099",
-      tag: "TOP RATED",
-      image:
-        "/womenfoot2.jpeg",
-    },
-    {
-      name: "Suede Platform Heels",
-      price: "₹1,199",
-      tag: "BEST SELLER",
-      image:
-        "/womenfoot3.jpeg",
-    },
-    {
-      name: "Brown Leather Chunky Block Heel Knee-High Boots",
-      price: "₹999",
-      tag: "",
-      image:
-        "/womenfoot4.jpeg",
-    },
-    {
-      name: "Brown Suede Mary Jane Flats",
-      price: "₹1,499",
-      tag: "NEW FIND",
-      image:
-        "/womenfoot5.jpeg",
-    },
-    {
-      name: "Vintage Brown Mid Heel Pumps",
-      price: "₹799",
-      tag: "",
-      image:
-        "/womenfoot6.jpeg",
-    },
-     {
-      name: "Round Toe Mudd-Pumps",
-      price: "₹799",
-      tag: "",
-      image:
-        "/womenfoot7.jpeg",
-    },
-     {
-      name: "Olive Green Leather Clogs with Braided Strap",
-      price: "₹799",
-      tag: "",
-      image:
-        "/womenfoot8.jpeg",
-    },
-     {
-      name: "Embossed-Leather Slingback Shoes",
-      price: "₹799",
-      tag: "",
-      image:
-        "/womenfoot9.jpeg",
-    },
-     {
-      name: "Wedge Ballet Flat Shoes",
-      price: "₹799",
-      tag: "",
-      image:
-        "/womenfoot10.jpeg",
-    },
-     {
-      name: "White Low-Top Platform Sneakers",
-      price: "₹799",
-      tag: "",
-      image:
-        "/womenfoot11.jpeg",
-    },
-    {
-      name: "Slouchy Mid-Calf Boots with Wedge Heel",
-      price: "₹799",
-      tag: "",
-      image:
-        "/womenfoot12.jpeg",
-    },
-  ];
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+export default async function WomenswearFootwear() {
+  const q = query(
+    collection(db, "products"),
+    where("category", "==", "womenswear"),
+    where("subcategory", "==", "footwear")
+  );
+  const snapshot = await getDocs(q);
+  const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
@@ -106,14 +30,14 @@ export default function WomenswearFootwear() {
           </div>
 
           <p className="text-sm font-bold uppercase tracking-widest text-[#aaa399]">
-            6 pieces
+            {products.length} pieces
           </p>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <div
-              key={product.name}
+              key={product.id}
               className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#d19a9a] hover:shadow-2xl"
             >
               <div className="relative h-80 overflow-hidden">

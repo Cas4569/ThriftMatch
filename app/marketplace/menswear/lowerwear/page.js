@@ -1,69 +1,14 @@
-export default function MenswearLowerwear() {
-  const products = [
-    {
-      name: "Brown Plaid Wide-Leg Loose-Fit Casual Trousers",
-      price: "₹899",
-      tag: "BEST SELLER",
-      image:
-        "/menlow1.jpeg",
-    },
-    {
-      name: "Dark Wash Blue Denim Jeans with Large White Dragons and Cloud Embroidery",
-      price: "₹999",
-      tag: "TRENDING",
-      image:
-        "/menlow2.jpeg",
-    },
-    {
-      name: "Relaxed Straight-Leg Cut with Knife Pleat Trousers",
-      price: "₹1,099",
-      tag: "TOP RATED",
-      image:
-        "/menlow3.jpeg",
-    },
-    {
-      name: "Pleated Baggy Denim Pants with a Barrel-Leg Silhouette",
-      price: "₹1,199",
-      tag: "",
-      image:
-        "/menlow4.jpeg",
-    },
-    {
-      name: "Grunge Loose-Fit Denim Jeans",
-      price: "₹949",
-      tag: "NEW FIND",
-      image:
-        "/menlow5.jpeg",
-    },
-    {
-      name: "Wide-Leg Denim Jeans with Pink Cherry Blossom Graphic Print",
-      price: "₹1,049",
-      tag: "",
-      image:
-        "/menlow6.jpeg",
-    },
-    {
-      name: "Dark Grey Acid-Wash Baggy Cargo Denim Jeans",
-      price: "₹1,049",
-      tag: "",
-      image:
-        "/menlow7.jpeg",
-    },
-    {
-      name: "Streetwear Baggy Fit Jeans with Mid-Rise Waist",
-      price: "₹1,049",
-      tag: "",
-      image:
-        "/menlow8.jpeg",
-    },
-    {
-      name: "Olive Green, Wide-Leg Baggy Denim Jeans with Washed Finis",
-      price: "₹1,049",
-      tag: "",
-      image:
-        "/menlow9.jpeg",
-    },
-  ];
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+export default async function MenswearLowerwear() {
+  const q = query(
+    collection(db, "products"),
+    where("category", "==", "menswear"),
+    where("subcategory", "==", "lowerwear")
+  );
+  const snapshot = await getDocs(q);
+  const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
@@ -85,14 +30,14 @@ export default function MenswearLowerwear() {
           </div>
 
           <p className="text-sm font-bold uppercase tracking-widest text-[#aaa399]">
-            6 pieces
+            {products.length} pieces
           </p>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <div
-              key={product.name}
+              key={product.id}
               className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#c6a15b] hover:shadow-2xl"
             >
               <div className="relative h-80 overflow-hidden">

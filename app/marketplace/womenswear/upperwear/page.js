@@ -1,69 +1,14 @@
-export default function WomenswearUpperwear() {
-  const products = [
-    {
-      name: "Black Satin Long-Sleeve Top",
-      price: "₹599",
-      tag: "BEST SELLER",
-      image:
-        "/womenup1.jpeg",
-    },
-    {
-      name: "Grey Short-Sleeve Cable-Knit Button-Up Cardigan",
-      price: "₹699",
-      tag: "TRENDING",
-      image:
-        "/womenup2.jpeg", 
-    },
-    {
-      name: "Burgundy Long-Sleeve Y2K Henley Top",
-      price: "₹899",
-      tag: "TOP RATED",
-      image:
-        "/womenup3.jpeg",
-    },
-    {
-      name: "Layered Vintage-Style Brown Camisole",
-      price: "₹749",
-      tag: "",
-      image:
-        "/womenup4.jpeg",
-    },
-    {
-      name: "Bollywood-Style Hand-Embroidered Georgette Tunic",
-      price: "₹999",
-      tag: "NEW FIND",
-      image:
-        "/bolly.jpeg",
-    },
-    {
-      name: "White Short-Sleeve Oversized Graphic T-shirt",
-      price: "₹1,099",
-      tag: "",
-      image:
-        "/womenup6.jpeg",
-    },
-     {
-      name: "Y2K Brown Boho Glam Camisole",
-      price: "₹1,099",
-      tag: "",
-      image:
-        "/womenup7.jpeg",
-    },
-     {
-      name: "Distressed Acid-Washed Black Oversized T-Shirt",
-      price: "₹1,099",
-      tag: "",
-      image:
-        "/womenup8.jpeg",
-    },
-     {
-      name: "Black and White Striped Sweetheart-Neck Top",
-      price: "₹1,099",
-      tag: "",
-      image:
-        "/womenup9.jpeg",
-    },
-  ];
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+export default async function WomenswearUpperwear() {
+  const q = query(
+    collection(db, "products"),
+    where("category", "==", "womenswear"),
+    where("subcategory", "==", "upperwear")
+  );
+  const snapshot = await getDocs(q);
+  const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
@@ -85,14 +30,14 @@ export default function WomenswearUpperwear() {
           </div>
 
           <p className="text-sm font-bold uppercase tracking-widest text-[#aaa399]">
-            6 pieces
+            {products.length} pieces
           </p>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <div
-              key={product.name}
+              key={product.id}
               className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#d19a9a] hover:shadow-2xl"
             >
               <div className="relative h-80 overflow-hidden">

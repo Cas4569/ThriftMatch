@@ -1,69 +1,14 @@
-export default function MenswearAccessories() {
-  const products = [
-    {
-      name: "Washed Denim Brown Faux-Suede Baseball Cap",
-      price: "₹899",
-      tag: "TOP RATED",
-      image:
-        "/menac1.jpeg",
-    },
-    {
-      name: "Brown Leather Messenger Bag With Flap Front",
-      price: "₹1,099",
-      tag: "TRENDING",
-      image:
-        "/menac2.jpeg",
-    },
-    {
-      name: "Y2K Aesthetic Layering Necklace Set",
-      price: "₹699",
-      tag: "BEST SELLER",
-      image:
-        "/menac3.jpeg",
-    },
-    {
-      name: "Steampunk Analog Wristwatch with Bronze-Toned Circular Case",
-      price: "₹499",
-      tag: "",
-      image:
-        "/menac4.jpeg",
-    },
-    {
-      name: "Brown Canvas and Leather Shoulder Bag",
-      price: "₹399",
-      tag: "NEW FIND",
-      image:
-        "/menac5.jpeg",
-    },
-    {
-      name: "Multi-Piece Punk Rock Studded Bracelet Set",
-      price: "₹799",
-      tag: "",
-      image:
-        "/menac6.jpeg",
-    },
-    {
-      name: "Silver-Toned Chain Necklace Set",
-      price: "₹799",
-      tag: "",
-      image:
-        "/menac7.jpeg",
-    },
-    {
-      name: "6 Piece Gothic Style Metal Ring Set",
-      price: "₹799",
-      tag: "",
-      image:
-        "/menac8.jpeg",
-    },
-    {
-      name: "Distressed Brown Leather Belts Sett",
-      price: "₹799",
-      tag: "",
-      image:
-        "/menac9.jpeg",
-    },
-  ];
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+export default async function MenswearAccessories() {
+  const q = query(
+    collection(db, "products"),
+    where("category", "==", "menswear"),
+    where("subcategory", "==", "accessories")
+  );
+  const snapshot = await getDocs(q);
+  const products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
@@ -86,14 +31,14 @@ export default function MenswearAccessories() {
           </div>
 
           <p className="text-sm font-bold uppercase tracking-widest text-[#aaa399]">
-            6 pieces
+            {products.length} pieces
           </p>
         </div>
 
         <section className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <article
-              key={product.name}
+              key={product.id}
               className="overflow-hidden rounded-2xl border border-[#3a342b] bg-[#211e1a]"
             >
               <img
