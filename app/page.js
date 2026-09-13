@@ -20,7 +20,7 @@ export default function Home() {
           </a>
 
           <a
-  href="/signin"
+  href="/sign-in"
   className="rounded-full bg-[#171717] px-5 py-2.5 text-white hover:scale-105 transition"
 >
   Sign In
@@ -53,7 +53,8 @@ export default function Home() {
 
           <div className="mt-10 flex flex-wrap gap-4">
 
-            <div className="mt-10 flex flex-wrap gap-4">
+
+
 
   <a
     href="/marketplace"
