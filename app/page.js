@@ -53,12 +53,23 @@ export default function Home() {
 
           <div className="mt-10 flex flex-wrap gap-4">
 
-            <a
-            href="/marketplace"
-            className="rounded-full bg-[#171717] px-8 py-4 font-semibold text-white transition hover:scale-105"
-            >
-            Explore Fashion →
-            </a>
+            <div className="mt-10 flex flex-wrap gap-4">
+
+  <a
+    href="/marketplace"
+    className="rounded-full bg-[#171717] px-8 py-4 font-semibold text-white transition hover:scale-105"
+  >
+    Explore Fashion →
+  </a>
+
+  <a
+    href="/stylist"
+    className="rounded-full border border-[#171717] px-8 py-4 font-semibold transition hover:bg-[#171717] hover:text-white"
+  >
+    AI Custom Stylist ✦
+  </a>
+
+</div>
 
             
 
