@@ -65,9 +65,9 @@ export default async function MenswearFootwear() {
                     {product.price}
                   </p>
 
-                  <button className="rounded-full border border-[#5a5348] px-5 py-2.5 text-sm font-bold transition hover:bg-[#c6a15b] hover:text-[#171512]">
+                  <a href={`/marketplace/product/${product.id}`} className="rounded-full border border-[#5a5348] px-5 py-2.5 text-sm font-bold transition hover:bg-[#c6a15b] hover:text-[#171512]">
                     View →
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
