@@ -16,7 +16,7 @@ export default function Sellers() {
           some basic information about you and your store.
         </p>
 
-        <div className="mt-12 rounded-[2rem] border border-[#3b3832] bg-[#24221e] p-8 md:p-10">
+        <div className="mt-12 rounded-4xl border border-[#3b3832] bg-[#24221e] p-8 md:p-10">
 
           <div className="mb-8">
             <h2 className="text-2xl font-black">
