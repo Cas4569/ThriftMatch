@@ -47,10 +47,10 @@ export default function SignIn() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f1e8] px-6 py-14 text-[#171717]">
+    <main className="min-h-screen bg-[#120b09] px-6 py-14 text-[#f3e9e5]">
       <div className="mx-auto flex min-h-[80vh] max-w-md items-center">
         <div className="w-full">
-          <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-gray-500">
+          <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-[#9A6051]">
             THRIFTMATCH / BUYERS
           </p>
 
@@ -58,7 +58,7 @@ export default function SignIn() {
             {isSignUp ? "Create account." : "Welcome back."}
           </h1>
 
-          <p className="mt-4 text-gray-600">
+          <p className="mt-4 text-[#a9958f]">
             {isSignUp
               ? "Sign up to start discovering fashion and building your style."
               : "Sign in to discover fashion, save your favourites and build your personal style."}
@@ -66,10 +66,10 @@ export default function SignIn() {
 
           <form
             onSubmit={handleSubmit}
-            className="mt-10 rounded-4xl border border-black/10 bg-white p-8 shadow-sm"
+            className="mt-10 rounded-4xl border border-[#3b2925] bg-[#211512] p-8 shadow-sm"
           >
             {error && (
-              <p className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+              <p className="mb-4 rounded-xl bg-[#2a1715] px-4 py-3 text-sm text-[#c98f82]">
                 {error}
               </p>
             )}
@@ -85,7 +85,7 @@ export default function SignIn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full rounded-xl border border-black/15 bg-[#f5f1e8] px-5 py-4 outline-none placeholder:text-gray-400 focus:border-[#171717]"
+                className="w-full rounded-xl border border-[#624038] bg-[#120b09] px-5 py-4 text-[#f3e9e5] outline-none placeholder:text-[#777168] focus:border-[#9A6051]"
               />
             </div>
 
@@ -100,14 +100,14 @@ export default function SignIn() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
-                className="w-full rounded-xl border border-black/15 bg-[#f5f1e8] px-5 py-4 outline-none placeholder:text-gray-400 focus:border-[#171717]"
+                className="w-full rounded-xl border border-[#624038] bg-[#120b09] px-5 py-4 text-[#f3e9e5] outline-none placeholder:text-[#777168] focus:border-[#9A6051]"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="mt-8 w-full rounded-full bg-[#171717] px-5 py-4 text-sm font-semibold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-70"
+              className="mt-8 w-full rounded-full bg-[#9A6051] px-5 py-4 text-sm font-semibold text-[#120b09] transition hover:bg-[#ad7060] disabled:cursor-not-allowed disabled:opacity-70"
             >
               {loading ? "Please wait..." : isSignUp ? "Create account" : "Sign in"}
             </button>
@@ -115,18 +115,18 @@ export default function SignIn() {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="mt-4 flex w-full items-center justify-center gap-3 rounded-full border border-black/15 bg-white px-5 py-4 text-sm font-semibold text-[#171717] transition hover:bg-[#f5f1e8]"
+              className="mt-4 flex w-full items-center justify-center gap-3 rounded-full border border-[#624038] bg-[#120b09] px-5 py-4 text-sm font-semibold text-[#f3e9e5] transition hover:bg-[#2a1915]"
             >
               <span aria-hidden="true">G</span>
               Continue with Google
             </button>
 
-            <div className="mt-8 text-center text-sm text-gray-600">
+            <div className="mt-8 text-center text-sm text-[#a9958f]">
               {isSignUp ? "Already have an account?" : "Need an account?"}{" "}
               <button
                 type="button"
                 onClick={() => setIsSignUp((prev) => !prev)}
-                className="font-semibold text-[#171717] underline underline-offset-2"
+                className="font-semibold text-[#9A6051] underline underline-offset-2"
               >
                 {isSignUp ? "Sign in" : "Create one"}
               </button>

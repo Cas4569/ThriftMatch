@@ -1,10 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 export default function Home() {
   const stageRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, setUser);
+  }, []);
 
   function handleMouseMove(e) {
     const rect = stageRef.current.getBoundingClientRect();
@@ -55,11 +62,21 @@ export default function Home() {
         </p>
 
         <div className="flex items-center gap-6 text-sm font-semibold">
-          <a href="Sellers" className="transition hover:opacity-70">For Sellers</a>
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/80 text-xs font-bold">H</div>
-            <span>Sign out</span>
-          </div>
+          <a href="/Sellers" className="transition hover:opacity-70">For Sellers</a>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/80 text-xs font-bold">
+                {user.email?.[0]?.toUpperCase() || "H"}
+              </div>
+              <button type="button" onClick={() => signOut(auth)} className="transition hover:opacity-70">
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <a href="/sign-in" className="transition hover:opacity-70">
+              Sign in
+            </a>
+          )}
         </div>
       </header>
 
@@ -167,7 +184,7 @@ export default function Home() {
         </div>
 
         <div
-          className="float-medium absolute right-[6%] top-[2%] h-[340px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
+          className="float-medium absolute right-[6%] top-[2%] h-[410px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
           style={{
             ...chromeFrame,
             transform: `rotate3d(${-tilt.y}, ${tilt.x}, 0, -10deg) translate3d(${tilt.x * 30}px, ${tilt.y * 30}px, 50px)`,
@@ -179,32 +196,32 @@ export default function Home() {
         </div>
 
         <div
-          className="float-fast absolute bottom-[8%] left-[10%] h-[270px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
+          className="float-fast absolute bottom-[8%] left-[10%] h-[340px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
           style={{
             ...chromeFrame,
             transform: `rotate3d(${tilt.y}, ${-tilt.x}, 0, 14deg) translate3d(${-tilt.x * 25}px, ${-tilt.y * 25}px, 40px)`,
           }}
         >
           <div className="h-full w-full overflow-hidden rounded-[1.2rem]">
-            <div className="h-full w-full bg-cover bg-center" style={{ backgroundImage: "url('/menhome.jpeg')" }} />
+            <div className="h-full w-full bg-cover bg-center" style={{ backgroundImage: "url('/menhome2.jpeg')" }} />
           </div>
         </div>
 
         <div
-          className="float-medium absolute bottom-[4%] right-[10%] h-[270px] w-[140px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
+          className="float-medium absolute bottom-[4%] right-[10%] h-[340px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
           style={{
             ...chromeFrame,
             transform: `rotate3d(${tilt.y}, ${-tilt.x}, 0, -14deg) translate3d(${-tilt.x * 22}px, ${-tilt.y * 22}px, 35px)`,
           }}
         >
           <div className="h-full w-full overflow-hidden rounded-[1.2rem]">
-            <div className="h-full w-full bg-cover bg-center" style={{ backgroundImage: "url('/womenhome.jpeg')" }} />
+            <div className="h-full w-full bg-cover bg-center" style={{ backgroundImage: "url('/womenhome1.jpeg')" }} />
           </div>
         </div>
 
         {/* Hanging AI match tag */}
         <div
-          className="swing absolute right-[26%] top-[4%] origin-top"
+          className="swing absolute right-[28%] top-[-8%] z-30 origin-top"
           style={{ transform: `translate3d(${tilt.x * 15}px, ${tilt.y * 15}px, 60px)` }}
         >
           <div className="mx-auto h-8 w-px bg-white/70" />

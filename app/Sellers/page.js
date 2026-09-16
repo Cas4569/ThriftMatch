@@ -1,9 +1,9 @@
 export default function Sellers() {
   return (
-    <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
+    <main className="min-h-screen bg-[#120b09] px-6 py-14 text-[#f3e9e5]">
       <div className="mx-auto max-w-3xl">
 
-        <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-[#c6a15b]">
+        <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-[#9A6051]">
           THRIFTMATCH / SELLERS
         </p>
 
@@ -11,12 +11,12 @@ export default function Sellers() {
           Become a seller.
         </h1>
 
-        <p className="mt-5 max-w-2xl text-lg leading-8 text-[#b9b2a7]">
+        <p className="mt-5 max-w-2xl text-lg leading-8 text-[#a9958f]">
           Before you start listing your fashion pieces, we need to verify
           some basic information about you and your store.
         </p>
 
-        <div className="mt-12 rounded-4xl border border-[#3b3832] bg-[#24221e] p-8 md:p-10">
+        <div className="mt-12 rounded-4xl border border-[#3b2925] bg-[#211512] p-8 md:p-10">
 
           <div className="mb-8">
             <h2 className="text-2xl font-black">
@@ -39,7 +39,7 @@ export default function Sellers() {
               <input
                 type="text"
                 placeholder="Enter your full name"
-                className="w-full rounded-xl border border-[#5a5348] bg-[#171512] px-5 py-4 text-[#f5f0e8] outline-none placeholder:text-[#777168] focus:border-[#c6a15b]"
+                className="w-full rounded-xl border border-[#624038] bg-[#120b09] px-5 py-4 text-[#f3e9e5] outline-none placeholder:text-[#777168] focus:border-[#9A6051]"
               />
             </div>
 
@@ -51,7 +51,7 @@ export default function Sellers() {
               <input
                 type="tel"
                 placeholder="Enter your mobile number"
-                className="w-full rounded-xl border border-[#5a5348] bg-[#171512] px-5 py-4 text-[#f5f0e8] outline-none placeholder:text-[#777168] focus:border-[#c6a15b]"
+                className="w-full rounded-xl border border-[#624038] bg-[#120b09] px-5 py-4 text-[#f3e9e5] outline-none placeholder:text-[#777168] focus:border-[#9A6051]"
               />
             </div>
 
@@ -63,7 +63,7 @@ export default function Sellers() {
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className="w-full rounded-xl border border-[#5a5348] bg-[#171512] px-5 py-4 text-[#f5f0e8] outline-none placeholder:text-[#777168] focus:border-[#c6a15b]"
+                className="w-full rounded-xl border border-[#624038] bg-[#120b09] px-5 py-4 text-[#f3e9e5] outline-none placeholder:text-[#777168] focus:border-[#9A6051]"
               />
             </div>
 
@@ -75,7 +75,7 @@ export default function Sellers() {
               <input
                 type="text"
                 placeholder="Enter your store name"
-                className="w-full rounded-xl border border-[#5a5348] bg-[#171512] px-5 py-4 text-[#f5f0e8] outline-none placeholder:text-[#777168] focus:border-[#c6a15b]"
+                className="w-full rounded-xl border border-[#624038] bg-[#120b09] px-5 py-4 text-[#f3e9e5] outline-none placeholder:text-[#777168] focus:border-[#9A6051]"
               />
             </div>
 
@@ -85,7 +85,7 @@ export default function Sellers() {
               </label>
 
               <select
-                className="w-full rounded-xl border border-[#5a5348] bg-[#171512] px-5 py-4 text-[#f5f0e8] outline-none focus:border-[#c6a15b]"
+                className="w-full rounded-xl border border-[#624038] bg-[#120b09] px-5 py-4 text-[#f3e9e5] outline-none focus:border-[#9A6051]"
               >
                 <option value="">Select seller type</option>
                 <option value="individual">Individual Seller</option>
@@ -101,13 +101,13 @@ export default function Sellers() {
               <input
                 type="url"
                 placeholder="Instagram, Facebook, website, etc."
-                className="w-full rounded-xl border border-[#5a5348] bg-[#171512] px-5 py-4 text-[#f5f0e8] outline-none placeholder:text-[#777168] focus:border-[#c6a15b]"
+                className="w-full rounded-xl border border-[#624038] bg-[#120b09] px-5 py-4 text-[#f3e9e5] outline-none placeholder:text-[#777168] focus:border-[#9A6051]"
               />
             </div>
 
           </div>
 
-          <button className="mt-8 w-full rounded-full bg-[#c6a15b] px-6 py-4 font-bold text-[#171512] transition hover:scale-[1.02]">
+          <button className="mt-8 w-full rounded-full bg-[#9A6051] px-6 py-4 font-bold text-[#120b09] transition hover:scale-[1.02]">
             Continue Verification →
           </button>
 
