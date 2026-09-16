@@ -51,6 +51,8 @@ export default function Navbar() {
     };
   }, []);
 
+  if (isHomePage) return null;
+
   return (
     <nav className="flex items-center justify-between bg-[#f5f1e8] px-8 py-6 text-[#171717]">
       <a href="/" className="flex items-center gap-3 text-2xl font-bold tracking-tight">

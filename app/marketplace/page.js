@@ -1,111 +1,350 @@
 export default function Marketplace() {
-  return (
-    <main className="min-h-screen bg-[#0f0616] px-6 py-14 text-[#f5f0e8]">
-      <div className="mx-auto max-w-7xl">
+return (
+<main
+  className="relative min-h-screen overflow-hidden px-6 py-14 text-white"
+  style={{
+    backgroundImage: "url('/marketplace.jpeg')",
+    backgroundPosition: "center top",
+    backgroundSize: "100% auto",
+    backgroundRepeat: "no-repeat",
+    backgroundColor: "#087fb6",
+  }}
+>
 
-        <div className="mb-10">
-          <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-[#c6a15b]">
-            THRIFTMATCH / MARKETPLACE
-          </p>
+  {/* =========================================================
+      AMBIENT CYBER GLOW
+  ========================================================== */}
 
-          <h1 className="text-5xl font-black tracking-tight md:text-7xl">
-            Explore Fashion.
-          </h1>
+  <div
+    className="pointer-events-none absolute -left-40 top-[-180px] h-[600px] w-[600px] rounded-full blur-[120px]"
+    style={{
+      background:
+        "radial-gradient(circle, rgba(130,35,255,0.42) 0%, rgba(130,35,255,0.18) 38%, transparent 70%)",
+    }}
+  />
 
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#b9b2a7]">
-            Find pre-loved pieces that match your style, personality and
-            everyday vibe.
-          </p>
-        </div>
+  <div
+    className="pointer-events-none absolute right-[-180px] top-[20%] h-[600px] w-[600px] rounded-full blur-[130px]"
+    style={{
+      background:
+        "radial-gradient(circle, rgba(255,0,153,0.3) 0%, rgba(140,20,255,0.16) 40%, transparent 72%)",
+    }}
+  />
 
-        <div className="grid gap-8 md:grid-cols-2">
+  <div
+    className="pointer-events-none absolute bottom-[-300px] left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full blur-[130px]"
+    style={{
+      background:
+        "radial-gradient(circle, rgba(75,0,255,0.25), transparent 68%)",
+    }}
+  />
 
-          {/* Menswear */}
-          <a
-            href="/marketplace/menswear"
-            className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#c6a15b] hover:shadow-2xl"
-          >
-            <div className="relative h-80 overflow-visible bg-[#3b3025]">
-              <img
-                src="/menswear.jpeg"
-                alt="Men's fashion"
-                className="relative z-20 h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.04] group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.45)]"
-              />
-            </div>
+  {/* =========================================================
+      CYBER GRID
+  ========================================================== */}
 
-            <div className="p-8">
-              <h2 className="text-4xl font-black">
-                Menswear
-              </h2>
+  <div
+    className="pointer-events-none absolute inset-0 opacity-[0.13]"
+    style={{
+      backgroundImage: `
+        linear-gradient(rgba(174,84,255,0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(174,84,255,0.35) 1px, transparent 1px)
+      `,
+      backgroundSize: "55px 55px",
+      maskImage:
+        "linear-gradient(to bottom, black 0%, transparent 85%)",
+      WebkitMaskImage:
+        "linear-gradient(to bottom, black 0%, transparent 85%)",
+    }}
+  />
 
-              <p className="mt-3 text-lg font-medium text-[#c6a15b]">
-                Classic fits. Modern attitude.
-              </p>
+  {/* =========================================================
+      TOP HUD LINE
+  ========================================================== */}
 
-              <div className="mt-5 flex flex-wrap gap-2">
-                <span className="rounded-full border border-[#5a5348] px-3 py-1 text-xs font-bold tracking-wide text-[#c6a15b]">
-                  TRENDING
-                </span>
+  <div className="relative z-10 mx-auto mb-12 flex max-w-7xl items-center justify-between border-b border-purple-500/20 pb-4">
 
-                <span className="rounded-full border border-[#5a5348] px-3 py-1 text-xs font-bold tracking-wide text-[#aaa399]">
-                  BEST SELLERS
-                </span>
+    <div className="flex items-center gap-3 font-mono text-[10px] tracking-[0.35em] text-purple-300">
+      <span className="h-2 w-2 animate-pulse rounded-full bg-fuchsia-400 shadow-[0_0_12px_#d946ef]" />
+      SYSTEM // ONLINE
+    </div>
 
-                <span className="rounded-full border border-[#5a5348] px-3 py-1 text-xs font-bold tracking-wide text-[#aaa399]">
-                  VINTAGE PICKS
-                </span>
-              </div>
+    <div className="hidden font-mono text-[10px] tracking-[0.25em] text-white/30 sm:block">
+      TM_OS // MARKETPLACE_01
+    </div>
 
-              <div className="mt-7 inline-flex rounded-full border border-[#5a5348] px-6 py-3 text-sm font-bold transition group-hover:bg-[#c6a15b] group-hover:text-[#171512]">
-                Explore Menswear →
-              </div>
-            </div>
-          </a>
+  </div>
 
-          {/* Womenswear */}
-          <a
-            href="/marketplace/womenswear"
-            className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#d19a9a] hover:shadow-2xl"
-          >
-            <div className="relative h-80 overflow-visible bg-[#392d31]">
-              <img
-                src="/womenswear.jpeg"
-                alt="Women's fashion"
-                className="relative z-20 h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.04] group-hover:shadow-[0_35px_70px_rgba(0,0,0,0.65)]"
-              />
-            </div>
+  <div className="relative z-10 mx-auto max-w-7xl">
 
-            <div className="p-8">
-              <h2 className="text-4xl font-black">
-                Womenswear
-              </h2>
+    {/* =========================================================
+        HEADER
+    ========================================================== */}
 
-              <p className="mt-3 text-lg font-medium text-[#d19a9a]">
-                Bold looks. Timeless finds.
-              </p>
+    <div className="mb-14 max-w-4xl">
 
-              <div className="mt-5 flex flex-wrap gap-2">
-                <span className="rounded-full border border-[#5a5348] px-3 py-1 text-xs font-bold tracking-wide text-[#d19a9a]">
-                  TRENDING
-                </span>
+      <p className="mb-5 flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.35em] text-fuchsia-400">
+        <span className="h-px w-8 bg-fuchsia-500 shadow-[0_0_10px_#d946ef]" />
+        THRIFTMATCH / MARKETPLACE
+      </p>
 
-                <span className="rounded-full border border-[#5a5348] px-3 py-1 text-xs font-bold tracking-wide text-[#aaa399]">
-                  NEW FINDS
-                </span>
+      <h1
+        className="text-5xl font-black tracking-[-0.05em] text-white md:text-8xl"
+        style={{
+          textShadow:
+            "0 0 20px rgba(168,85,247,0.35), 0 0 60px rgba(168,85,247,0.15)",
+        }}
+      >
+        Explore
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-pink-400">
+          {" "}Fashion.
+        </span>
+      </h1>
 
-                <span className="rounded-full border border-[#5a5348] px-3 py-1 text-xs font-bold tracking-wide text-[#aaa399]">
-                  MOST LOVED
-                </span>
-              </div>
+      <div className="mt-6 flex max-w-2xl items-start gap-4">
 
-              <div className="mt-7 inline-flex rounded-full border border-[#5a5348] px-6 py-3 text-sm font-bold transition group-hover:bg-[#d19a9a] group-hover:text-[#171512]">
-                Explore Womenswear →
-              </div>
-            </div>
-          </a>
+        <div className="mt-2 h-10 w-[2px] bg-gradient-to-b from-fuchsia-400 to-transparent shadow-[0_0_12px_#d946ef]" />
 
-        </div>
+        <p className="text-base leading-7 text-white/55 md:text-lg">
+          Find pre-loved pieces that match your style, personality and
+          everyday vibe.
+          <span className="ml-2 text-purple-300/70">
+            Curated for your next identity.
+          </span>
+        </p>
+
       </div>
-    </main>
-  );
+
+    </div>
+
+    {/* =========================================================
+        CATEGORY CARDS
+    ========================================================== */}
+
+    <div className="grid gap-8 md:grid-cols-2">
+
+      {/* =====================================================
+          MENSWEAR
+      ====================================================== */}
+
+      <a
+        href="/marketplace/menswear"
+        className="group relative overflow-hidden rounded-[1.5rem] border border-[#D4AF37]/30 bg-[#0d0717]/90 transition-all duration-500 hover:-translate-y-3 hover:border-[#D4AF37] hover:shadow-[0_25px_80px_rgba(212,175,55,0.3)]"
+      >
+
+        {/* Neon edge */}
+
+        <div className="pointer-events-none absolute inset-0 z-30 rounded-[1.5rem] border border-[#D4AF37]/0 transition duration-500 group-hover:border-[#D4AF37]/70 group-hover:shadow-[inset_0_0_30px_rgba(212,175,55,0.12)]" />
+
+        {/* Image area */}
+
+        <div className="relative h-80 overflow-hidden bg-[#10051d]">
+
+          {/* Purple atmospheric glow */}
+
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0b0412] via-transparent to-[#D4AF37]/20 opacity-70" />
+
+          <div className="absolute inset-0 z-10 bg-[#D4AF37]/0 mix-blend-screen transition duration-700 group-hover:bg-[#D4AF37]/10" />
+
+          <img
+            src="/menswear.jpeg"
+            alt="Men's fashion"
+            className="relative z-0 h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.08] group-hover:brightness-110"
+          />
+
+          {/* Scanlines */}
+
+          <div
+            className="pointer-events-none absolute inset-0 z-20 opacity-20"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(0deg, transparent 0px, transparent 5px, rgba(255,255,255,0.16) 6px)",
+            }}
+          />
+
+          {/* Corner HUD */}
+
+          <div className="absolute left-5 top-5 z-30 font-mono text-[9px] tracking-[0.3em] text-[#D4AF37]/70">
+            TM // M-01
+          </div>
+
+          <div className="absolute right-5 top-5 z-30 flex items-center gap-2 font-mono text-[9px] tracking-widest text-white/60">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D4AF37] shadow-[0_0_8px_#D4AF37]" />
+            ONLINE
+          </div>
+
+          {/* Bottom image label */}
+
+          <div className="absolute bottom-5 left-5 z-30">
+
+            <p className="font-mono text-[9px] tracking-[0.3em] text-[#D4AF37]">
+              SECTOR 01
+            </p>
+
+            <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-white/70">
+              Mens Division
+            </p>
+
+          </div>
+
+        </div>
+
+        {/* Content */}
+
+        <div className="relative p-8">
+
+          <div className="mb-5 flex items-center justify-between">
+
+            <h2 className="text-4xl font-black tracking-tight text-white">
+              Menswear
+            </h2>
+
+            
+
+          </div>
+
+          <p className="text-lg font-medium text-[#D4AF37]">
+            Classic fits. Modern attitude.
+          </p>
+
+          <div className="mt-4 flex items-center justify-between border-t border-[#D4AF37]/15 pt-4">
+
+            <span className="font-mono text-[10px] tracking-[0.2em] text-white/30">
+              ACCESS SECTOR
+            </span>
+
+            <span className="inline-flex items-center gap-3 rounded-full border border-[#D4AF37]/50 bg-[#D4AF37]/10 px-5 py-2.5 text-xs font-bold text-[#D4AF37] transition-all duration-300 group-hover:border-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#17130a] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.5)]">
+              Explore Menswear
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </span>
+
+          </div>
+
+        </div>
+
+      </a>
+
+      {/* =====================================================
+          WOMENSWEAR
+      ====================================================== */}
+
+      <a
+        href="/marketplace/womenswear"
+        className="group relative overflow-hidden rounded-[1.5rem] border border-fuchsia-500/30 bg-[#0d0717]/90 transition-all duration-500 hover:-translate-y-3 hover:border-fuchsia-400 hover:shadow-[0_25px_80px_rgba(236,72,153,0.28)]"
+      >
+
+        {/* Neon edge */}
+
+        <div className="pointer-events-none absolute inset-0 z-30 rounded-[1.5rem] border border-fuchsia-400/0 transition duration-500 group-hover:border-fuchsia-400/70 group-hover:shadow-[inset_0_0_30px_rgba(236,72,153,0.12)]" />
+
+        {/* Image */}
+
+        <div className="relative h-80 overflow-hidden bg-[#160616]">
+
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0b0412] via-transparent to-fuchsia-900/20 opacity-70" />
+
+          <div className="absolute inset-0 z-10 bg-fuchsia-500/0 mix-blend-screen transition duration-700 group-hover:bg-fuchsia-500/10" />
+
+          <img
+            src="/womenswear.jpeg"
+            alt="Women's fashion"
+            className="relative z-0 h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.08] group-hover:brightness-110"
+          />
+
+          {/* Scanlines */}
+
+          <div
+            className="pointer-events-none absolute inset-0 z-20 opacity-20"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(0deg, transparent 0px, transparent 5px, rgba(255,255,255,0.16) 6px)",
+            }}
+          />
+
+          {/* HUD */}
+
+          <div className="absolute left-5 top-5 z-30 font-mono text-[9px] tracking-[0.3em] text-fuchsia-200/70">
+            TM // W-02
+          </div>
+
+          <div className="absolute right-5 top-5 z-30 flex items-center gap-2 font-mono text-[9px] tracking-widest text-white/60">
+            <span className="h-1.5 w-1.5 rounded-full bg-fuchsia-400 shadow-[0_0_8px_#ec4899]" />
+            ONLINE
+          </div>
+
+          <div className="absolute bottom-5 left-5 z-30">
+
+            <p className="font-mono text-[9px] tracking-[0.3em] text-fuchsia-300">
+              SECTOR 02
+            </p>
+
+            <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-white/70">
+              Womens Division
+            </p>
+
+          </div>
+
+        </div>
+
+        {/* Content */}
+
+        <div className="relative p-8">
+
+          <div className="mb-5 flex items-center justify-between">
+
+            <h2 className="text-4xl font-black tracking-tight text-white">
+              Womenswear
+            </h2>
+
+            
+
+          </div>
+
+          <p className="text-lg font-medium text-fuchsia-300">
+            Bold looks. Timeless finds.
+          </p>
+
+          <div className="mt-4 flex items-center justify-between border-t border-fuchsia-500/15 pt-4">
+
+            <span className="font-mono text-[10px] tracking-[0.2em] text-white/30">
+              ACCESS SECTOR
+            </span>
+
+            <span className="inline-flex items-center gap-3 rounded-full border border-fuchsia-400/50 bg-fuchsia-500/10 px-5 py-2.5 text-xs font-bold text-fuchsia-200 transition-all duration-300 group-hover:border-fuchsia-300 group-hover:bg-fuchsia-500 group-hover:text-white group-hover:shadow-[0_0_25px_rgba(236,72,153,0.5)]">
+              Explore Womenswear
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </span>
+
+          </div>
+
+        </div>
+
+      </a>
+
+    </div>
+
+    {/* =========================================================
+        BOTTOM SYSTEM TEXT
+    ========================================================== */}
+
+    <div className="mt-12 flex items-center justify-between border-t border-purple-500/10 pt-5 font-mono text-[9px] tracking-[0.25em] text-white/20">
+
+      <span>THRIFTMATCH NETWORK</span>
+
+      <span className="hidden sm:block">
+        SECOND LIFE // NEW IDENTITY
+      </span>
+
+      <span>TM_01</span>
+
+    </div>
+
+  </div>
+</main>
+
+);
 }
