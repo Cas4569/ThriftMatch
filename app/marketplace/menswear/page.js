@@ -260,16 +260,28 @@ export default function Menswear() {
 
         {/* Search */}
         <div className="relative mb-12">
-          <form action="/marketplace/search" method="get">
+          <form
+            action="/marketplace/search"
+            method="get"
+            className="flex w-full items-center overflow-hidden rounded-full border border-[#5a5348] bg-[#24221e] transition focus-within:border-[#c6a15b]"
+          >
             <input
               type="text"
               name="query"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search men's fashion..."
-              className="w-full rounded-full border border-[#5a5348] bg-[#24221e] px-7 py-5 text-lg text-[#f5f0e8] outline-none transition placeholder:text-[#777168] focus:border-[#c6a15b]"
+              className="min-w-0 flex-1 bg-transparent px-6 py-5 text-lg text-[#f5f0e8] outline-none placeholder:text-[#777168]"
             />
             <input type="hidden" name="gender" value="menswear" />
+            <button
+              type="submit"
+              aria-label="Search menswear"
+              title="Search"
+              className="mr-2 shrink-0 rounded-full bg-[#c6a15b] px-5 py-3 text-sm font-bold text-[#171512] transition hover:bg-[#dfbd78]"
+            >
+              <span aria-hidden="true" className="text-lg leading-none">🔍</span>
+            </button>
           </form>
 
           {search.trim() && (

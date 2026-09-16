@@ -27,8 +27,7 @@ export default function ProductActions({ product }) {
   }
 
   function handleBuyNow() {
-    saveToCart();
-    router.push("/cart");
+    router.push(`/marketplace/buy-now?productId=${product.id}`);
   }
 
   return (

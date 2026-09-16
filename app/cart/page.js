@@ -5,12 +5,18 @@ import { useSyncExternalStore } from "react";
 const cartStorageKey = "thriftmatch-cart";
 let lastCartValue = "";
 let cartSnapshot = [];
+const emptyCartSnapshot = [];
 
 function getCart() {
   const storedCart = localStorage.getItem(cartStorageKey) || "[]";
   if (storedCart !== lastCartValue) {
     lastCartValue = storedCart;
-    cartSnapshot = JSON.parse(storedCart);
+    const parsedCart = JSON.parse(storedCart);
+    cartSnapshot = Array.isArray(parsedCart)
+      ? parsedCart.filter(
+          (item, index, items) => item?.id && items.findIndex((entry) => entry.id === item.id) === index,
+        )
+      : [];
   }
   return cartSnapshot;
 }
@@ -25,7 +31,7 @@ function subscribeToCart(onChange) {
 }
 
 export default function CartPage() {
-  const cart = useSyncExternalStore(subscribeToCart, getCart, () => []);
+  const cart = useSyncExternalStore(subscribeToCart, getCart, () => emptyCartSnapshot);
 
   function removeItem(id) {
     const nextCart = cart.filter((item) => item.id !== id);
@@ -53,7 +59,6 @@ export default function CartPage() {
                 <img src={item.image} alt="" className="h-20 w-20 rounded-xl object-cover" />
                 <div className="min-w-0 flex-1">
                   <h2 className="font-bold">{item.name}</h2>
-                  <p className="mt-1 text-sm text-[#aaa399]">Quantity: {item.quantity}</p>
                 </div>
                 <button
                   type="button"

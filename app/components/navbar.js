@@ -1,12 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
+const cartStorageKey = "thriftmatch-cart";
+
 export default function Navbar() {
+  const pathname = usePathname();
   const [user, setUser] = useState(null);
   const [checking, setChecking] = useState(true);
+  const [cartCount, setCartCount] = useState(0);
+
+  const isHomePage = pathname === "/";
+  const isMarketplacePage =
+    pathname === "/marketplace" ||
+    pathname.startsWith("/marketplace/") ||
+    pathname === "/stylist" ||
+    pathname.startsWith("/stylist/") ||
+    pathname === "/Discover" ||
+    pathname.startsWith("/Discover/") ||
+    pathname === "/cart";
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -14,6 +29,26 @@ export default function Navbar() {
       setChecking(false);
     });
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    function updateCartCount() {
+      const savedCart = JSON.parse(localStorage.getItem(cartStorageKey) || "[]");
+      const cart = savedCart.filter(
+        (item, index, items) => item?.id && items.findIndex((entry) => entry.id === item.id) === index,
+      );
+      localStorage.setItem(cartStorageKey, JSON.stringify(cart));
+      setCartCount(cart.length);
+    }
+
+    updateCartCount();
+    window.addEventListener("storage", updateCartCount);
+    window.addEventListener("thriftmatch-cart-updated", updateCartCount);
+
+    return () => {
+      window.removeEventListener("storage", updateCartCount);
+      window.removeEventListener("thriftmatch-cart-updated", updateCartCount);
+    };
   }, []);
 
   return (
@@ -28,13 +63,44 @@ export default function Navbar() {
       </a>
 
       <div className="hidden items-center gap-8 text-sm font-medium md:flex">
-        <a href="/discover" className="hover:opacity-60 transition">
-          Discover
-        </a>
+        {!checking && user && isMarketplacePage && (
+          <>
+            <a href="/Discover" className="transition hover:opacity-60">
+              Discover
+            </a>
 
-        <a href="/Sellers" className="hover:opacity-60 transition">
-          For Sellers
-        </a>
+            <a
+              href="/cart"
+              aria-label={`Cart${cartCount ? `, ${cartCount} items` : ""}`}
+              title="Cart"
+              className="relative transition hover:opacity-60"
+            >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              >
+                <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L21 8H6" />
+                <circle cx="10" cy="20" r="1" />
+                <circle cx="18" cy="20" r="1" />
+              </svg>
+              {cartCount > 0 && (
+                <span className="absolute -right-3 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c6a15b] px-1 text-[10px] font-bold text-[#171717]">
+                  {cartCount > 9 ? "9+" : cartCount}
+                </span>
+              )}
+            </a>
+          </>
+        )}
+
+        {isHomePage && (
+          <a href="/Sellers" className="transition hover:opacity-60">
+            For Sellers
+          </a>
+        )}
 
         {checking ? null : user ? (
           <div className="flex items-center gap-3">

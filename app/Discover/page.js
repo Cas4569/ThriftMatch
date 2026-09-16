@@ -1,76 +1,40 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-const clothes = [
-  {
-    name: "Classic White T-Shirt",
-    category: "Men's Upperwear",
-    price: "₹599",
-    image: "/menupcover.jpeg",
-  },
-  {
-    name: "Classic White Top",
-    category: "Women's Upperwear",
-    price: "₹599",
-    image: "/womenupcover.jpeg",
-  },
-  {
-    name: "Classic Blue Jeans",
-    category: "Men's Lowerwear",
-    price: "₹899",
-    image: "/menlowcover.jpeg",
-  },
-  {
-    name: "Relaxed Black Jeans",
-    category: "Women's Lowerwear",
-    price: "₹999",
-    image: "/womenlowcover.jpeg",
-  },
-  {
-    name: "Classic Denim Jacket",
-    category: "Men's Outerwear",
-    price: "₹1,299",
-    image: "/menoutcover.jpeg",
-  },
-  {
-    name: "Classic Denim Jacket",
-    category: "Women's Outerwear",
-    price: "₹1,299",
-    image: "/womenoutcover.jpeg",
-  },
-  {
-    name: "Classic White Sneakers",
-    category: "Men's Footwear",
-    price: "₹899",
-    image: "/menfootcover.jpeg",
-  },
-  {
-    name: "Minimal Black Sneakers",
-    category: "Women's Footwear",
-    price: "₹1,099",
-    image: "/womenfootcover.jpeg",
-  },
-  {
-    name: "Classic Leather Watch",
-    category: "Men's Accessories",
-    price: "₹899",
-    image: "/menacccover.jpeg",
-  },
-  {
-    name: "Classic Black Handbag",
-    category: "Women's Accessories",
-    price: "₹1,099",
-    image: "/womenaccover.jpeg",
-  },
-];
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 export default function Discover() {
   const [feed, setFeed] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const shuffled = [...clothes].sort(() => Math.random() - 0.5);
-    setFeed(shuffled);
+    async function loadProducts() {
+      try {
+        const snapshot = await getDocs(collection(db, "products"));
+        const products = snapshot.docs.map((productSnapshot) => ({
+          id: productSnapshot.id,
+          ...productSnapshot.data(),
+        }));
+
+        for (let index = products.length - 1; index > 0; index -= 1) {
+          const randomIndex = Math.floor(Math.random() * (index + 1));
+          [products[index], products[randomIndex]] = [
+            products[randomIndex],
+            products[index],
+          ];
+        }
+
+        setFeed(products.slice(0, 27));
+      } catch (loadError) {
+        setError("We couldn't load discover products right now.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProducts();
   }, []);
 
   return (
@@ -92,36 +56,41 @@ export default function Discover() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {feed.map((item, index) => (
-            <div
-              key={`${item.name}-${item.category}-${index}`}
-              className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#c6a15b] hover:shadow-2xl"
-            >
-              <div className="relative h-[380px] overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-              </div>
+        {loading ? (
+          <p className="text-lg text-[#b9b2a7]">Loading discover products...</p>
+        ) : error ? (
+          <p className="text-lg text-[#d19a9a]">{error}</p>
+        ) : feed.length === 0 ? (
+          <p className="text-lg text-[#b9b2a7]">No products are available yet.</p>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {feed.map((item) => (
+              <a
+                key={item.id}
+                href={`/marketplace/product/${item.id}`}
+                className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#c6a15b] hover:shadow-2xl"
+              >
+                <div className="relative h-[380px] overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </div>
 
-              <div className="p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#c6a15b]">
-                  {item.category}
-                </p>
+                <div className="p-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#c6a15b]">
+                    {item.category || item.subcategory || "Fashion"}
+                  </p>
 
-                <h2 className="mt-2 text-2xl font-black">
-                  {item.name}
-                </h2>
+                  <h2 className="mt-2 text-2xl font-black">{item.name}</h2>
 
-                <p className="mt-3 text-lg font-semibold">
-                  {item.price}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+                  <p className="mt-3 text-lg font-semibold">{item.price}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
 
       </div>
     </main>

@@ -1,41 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
-
-const CATALOG = {
-  outerwear: [
-    { id: "o1", name: "Olive Field Jacket", price: 1450, image: "/products/outer1.jpg", occasions: ["casual", "festival"] },
-    { id: "o2", name: "Denim Trucker", price: 1200, image: "/products/outer2.jpg", occasions: ["casual", "date"] },
-    { id: "o3", name: "Wool Overcoat", price: 2100, image: "/products/outer3.jpg", occasions: ["interview", "wedding"] },
-    { id: "o4", name: "Embroidered Bomber", price: 1750, image: "/products/outer4.jpg", occasions: ["festival", "date"] },
-  ],
-  upperwear: [
-    { id: "u1", name: "Brown Knit Vest", price: 650, image: "/products/top1.jpg", occasions: ["casual", "date"] },
-    { id: "u2", name: "Plaid Button-Up", price: 780, image: "/products/top2.jpg", occasions: ["casual", "interview"] },
-    { id: "u3", name: "White Tee", price: 320, image: "/products/top3.jpg", occasions: ["casual", "festival"] },
-    { id: "u4", name: "Silk Blouse", price: 1100, image: "/products/top4.jpg", occasions: ["interview", "wedding", "date"] },
-  ],
-  lowerwear: [
-    { id: "l1", name: "Cargo Pants", price: 950, image: "/products/bottom1.jpg", occasions: ["casual", "festival"] },
-    { id: "l2", name: "Faded Denim", price: 890, image: "/products/bottom2.jpg", occasions: ["casual", "date"] },
-    { id: "l3", name: "Corduroy Trousers", price: 760, image: "/products/bottom3.jpg", occasions: ["interview", "casual"] },
-    { id: "l4", name: "Tailored Palazzo", price: 1250, image: "/products/bottom4.jpg", occasions: ["wedding", "interview"] },
-  ],
-  footwear: [
-    { id: "f1", name: "White Sneakers", price: 1600, image: "/products/shoes1.jpg", occasions: ["casual", "festival"] },
-    { id: "f2", name: "Leather Boots", price: 2400, image: "/products/shoes2.jpg", occasions: ["date", "casual"] },
-    { id: "f3", name: "Canvas High-Tops", price: 1350, image: "/products/shoes3.jpg", occasions: ["casual", "festival"] },
-    { id: "f4", name: "Heeled Mules", price: 1900, image: "/products/shoes4.jpg", occasions: ["wedding", "interview", "date"] },
-  ],
-  accessories: [
-    { id: "a1", name: "Silver Chain", price: 420, image: "/products/acc1.jpg", occasions: ["date", "festival"] },
-    { id: "a2", name: "Beanie", price: 280, image: "/products/acc2.jpg", occasions: ["casual", "festival"] },
-    { id: "a3", name: "Crossbody Bag", price: 980, image: "/products/acc3.jpg", occasions: ["casual", "interview"] },
-    { id: "a4", name: "Pearl Studs", price: 540, image: "/products/acc4.jpg", occasions: ["wedding", "interview"] },
-  ],
-};
+import { useEffect, useState, useMemo, useRef } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 const CATEGORIES = ["outerwear", "upperwear", "lowerwear", "footwear", "accessories"];
+const cartStorageKey = "thriftmatch-cart";
 
 const LAYOUT = [
   { tilt: -5, offsetY: 0, width: "w-44 md:w-52" },
@@ -83,16 +53,18 @@ function mulberry32(seed) {
   };
 }
 
-function pickItem(category, vibe, rng) {
-  const pool = CATALOG[category];
+function pickItem(catalog, category, vibe, rng) {
+  const pool = catalog[category] || [];
   const matching = vibe ? pool.filter((item) => item.occasions.includes(vibe)) : [];
   const source = matching.length ? matching : pool;
-  return source[Math.floor(rng() * source.length)];
+  return source.length ? source[Math.floor(rng() * source.length)] : null;
 }
 
 export default function StylistPage() {
   const [prompt, setPrompt] = useState("");
   const [nonce, setNonce] = useState(0);
+  const [catalog, setCatalog] = useState(null);
+  const [loadError, setLoadError] = useState("");
   const [locked, setLocked] = useState({
     outerwear: false,
     upperwear: false,
@@ -100,23 +72,97 @@ export default function StylistPage() {
     footwear: false,
     accessories: false,
   });
-  const [outfit, setOutfit] = useState(() => {
-    const rng = mulberry32(hashString("start-0"));
-    const initial = {};
-    CATEGORIES.forEach((cat) => {
-      initial[cat] = pickItem(cat, null, rng);
+  const [outfit, setOutfit] = useState({});
+
+  // --- new: cursor-driven 3D parallax for the floating cards ---
+  const stageRef = useRef(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  function handleStageMouseMove(e) {
+    const rect = stageRef.current.getBoundingClientRect();
+    setTilt({
+      x: (e.clientX - rect.left) / rect.width - 0.5,
+      y: (e.clientY - rect.top) / rect.height - 0.5,
     });
-    return initial;
-  });
+  }
+
+  function handleStageMouseLeave() {
+    setTilt({ x: 0, y: 0 });
+  }
+
+  // --- new: cart / buy-now state (no backend wired yet — see chat note) ---
+  const [cart, setCart] = useState([]);
+  const [orderMessage, setOrderMessage] = useState("");
+
+  useEffect(() => {
+    try {
+      const savedCart = JSON.parse(localStorage.getItem(cartStorageKey) || "[]");
+      const uniqueCart = Array.isArray(savedCart)
+        ? savedCart.filter(
+            (item, index, items) => item?.id && items.findIndex((entry) => entry.id === item.id) === index,
+          )
+        : [];
+      setCart(uniqueCart);
+      localStorage.setItem(cartStorageKey, JSON.stringify(uniqueCart));
+      window.dispatchEvent(new Event("thriftmatch-cart-updated"));
+    } catch {
+      setCart([]);
+    }
+  }, []);
+
+  function syncCart(nextCart) {
+    localStorage.setItem(cartStorageKey, JSON.stringify(nextCart));
+    window.dispatchEvent(new Event("thriftmatch-cart-updated"));
+    setCart(nextCart);
+  }
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const snapshot = await getDocs(collection(db, "products"));
+        const nextCatalog = Object.fromEntries(CATEGORIES.map((category) => [category, []]));
+
+        snapshot.docs.forEach((productSnapshot) => {
+          const product = productSnapshot.data();
+          const category = String(product.subcategory || "").toLowerCase();
+
+          if (!nextCatalog[category] || !product.name || !product.image) return;
+
+          const numericPrice = Number(String(product.price || "").replace(/[^0-9.]/g, ""));
+          nextCatalog[category].push({
+            id: productSnapshot.id,
+            name: product.name,
+            price: Number.isFinite(numericPrice) ? numericPrice : 0,
+            image: product.image,
+            occasions: Array.isArray(product.occasions) ? product.occasions : [],
+          });
+        });
+
+        setCatalog(nextCatalog);
+        const rng = mulberry32(hashString("start-0"));
+        const initial = {};
+        CATEGORIES.forEach((category) => {
+          initial[category] = pickItem(nextCatalog, category, null, rng);
+        });
+        setOutfit(initial);
+      } catch (error) {
+        setLoadError("We couldn't load products from the marketplace.");
+      }
+    }
+
+    loadProducts();
+  }, []);
 
   const vibe = useMemo(() => inferVibe(prompt), [prompt]);
 
   function generateOutfit() {
+    if (!catalog) return;
+
     const rng = mulberry32(hashString(`${prompt}-${nonce}`));
     setOutfit((prev) => {
       const next = { ...prev };
       CATEGORIES.forEach((cat) => {
-        if (!locked[cat]) next[cat] = pickItem(cat, vibe, rng);
+        if (!locked[cat]) next[cat] = pickItem(catalog, cat, vibe, rng);
       });
       return next;
     });
@@ -134,91 +180,193 @@ export default function StylistPage() {
     setLocked((prev) => ({ ...prev, [category]: !prev[category] }));
   }
 
-  const total = CATEGORIES.reduce((sum, cat) => sum + outfit[cat].price, 0);
+  const total = CATEGORIES.reduce((sum, cat) => sum + (outfit[cat]?.price || 0), 0);
+
+  // --- new: derive cart/buy-now eligibility from held ("locked") pieces ---
+  const heldCategories = CATEGORIES.filter((cat) => locked[cat]);
+  const heldCount = heldCategories.length;
+  const fullOutfit = heldCount === CATEGORIES.length;
+  const heldTotal = heldCategories.reduce((sum, cat) => sum + (outfit[cat]?.price || 0), 0);
+
+  function handleAddToCart() {
+    const itemsToAdd = heldCategories.map((cat) => outfit[cat]).filter(Boolean);
+
+    const savedCart = JSON.parse(localStorage.getItem(cartStorageKey) || "[]");
+    const nextCart = [...savedCart, ...itemsToAdd].filter(
+      (item, index, items) => item?.id && items.findIndex((entry) => entry.id === item.id) === index,
+    );
+
+    syncCart(nextCart);
+    setOrderMessage(`Added ${itemsToAdd.length} piece${itemsToAdd.length === 1 ? "" : "s"} to cart.`);
+  }
+
+  function handleBuyNow() {
+    const itemsToBuy = CATEGORIES.map((cat) => outfit[cat]).filter(Boolean);
+    setOrderMessage(`Buying the full outfit — ₹${total}.`);
+    // NOTE: no checkout/order backend was provided — wire this to your
+    // real checkout flow once it exists.
+  }
+
+  if (loadError) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-black px-6 py-16 font-mono text-[#7CFF9C]">
+        <p>{loadError}</p>
+      </main>
+    );
+  }
+
+  if (!catalog) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-black px-6 py-16 font-mono text-[#7CFF9C]">
+        <p>Loading marketplace pieces...</p>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-[#120D1B] px-6 py-16 text-[#F3EEE7] md:px-12">
+    <main className="relative min-h-screen overflow-hidden bg-black px-6 py-16 text-[#DFFFE6] md:px-12">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500&display=swap');
         .stylist-serif { font-family: 'Fraunces', Georgia, serif; }
+        @keyframes scan {
+          0% { background-position: 0 0; }
+          100% { background-position: 0 40px; }
+        }
+        @keyframes metalShimmer {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
+        }
       `}</style>
 
-      <div className="mx-auto max-w-6xl">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.08]"
+        style={{
+          backgroundImage: "repeating-linear-gradient(0deg, rgba(124,255,156,0.55) 0px, rgba(124,255,156,0.55) 1px, transparent 1px, transparent 4px)",
+          animation: "scan 6s linear infinite",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: "radial-gradient(circle at center, rgba(10,45,20,0.7) 0%, rgba(0,0,0,0.96) 58%)",
+        }}
+      />
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-[#26E600]/10 blur-[160px]" />
+
+      <div className="relative mx-auto max-w-6xl">
 
         {/* Header row: headline left, prompt box right */}
         <div className="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-          <div className="pointer-events-none absolute -left-16 -top-20 h-72 w-72 rounded-full bg-[#C6A15B]/10 blur-3xl" />
-
           <div className="max-w-lg">
-            <p className="mb-3 text-sm text-[#9C90AF]">A private styling session, run by the machine.</p>
-            <h1 className="stylist-serif relative inline-block text-5xl italic leading-[1.05] text-[#F3EEE7] md:text-6xl">
+            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-[#7CFF9C]/70">
+              System initialized: a private styling session, run by the machine.
+            </p>
+            <h1 className="stylist-serif relative inline-block text-5xl italic leading-[1.05] text-[#DFFFE6] [text-shadow:0_0_18px_rgba(124,255,156,0.35)] md:text-6xl">
               Tell it what you're feeling.
             </h1>
-            <svg className="mt-2 h-3 w-64 text-[#C6A15B]/70" viewBox="0 0 260 12" fill="none">
-              <path d="M2 8 Q 40 2, 80 7 T 160 6 T 258 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="1 7" />
-            </svg>
           </div>
 
-          <div className="relative w-full rotate-1 md:w-80">
-            <div className="absolute -top-2 right-6 h-4 w-4 rotate-45 bg-[#C6A15B]" />
-            <textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={handlePromptKeyDown}
-              placeholder="rainy day, my grandmother's cardigan, confident energy..."
-              rows={3}
-              className="w-full resize-none rounded-md border border-[#C6A15B]/30 bg-[#1D1530] p-4 pr-14 text-sm text-[#F3EEE7] placeholder:text-[#9C90AF] focus:border-[#C6A15B] focus:outline-none"
-            />
-            <button
-              onClick={generateOutfit}
-              title="Generate from this"
-              className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#C6A15B] text-[#120D1B] transition hover:bg-[#E4C989]"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12 H19 M13 6 L19 12 L13 18" />
-              </svg>
-            </button>
-            <p className="mt-2 text-xs text-[#9C90AF]">
-              {vibe ? `sensing: ${vibe}` : "sensing: open to anything"}
-            </p>
+          <div
+            className="relative w-full rounded-md p-[3px] md:w-80"
+            style={{
+              background: "linear-gradient(135deg, #d0d0d0 0%, #6d6d6d 12%, #1d1d1d 30%, #7e7e7e 46%, #191919 60%, #a5a5a5 75%, #2d2d2d 100%)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -3px 10px rgba(0,0,0,0.8), 0 0 18px rgba(74,222,128,0.14)",
+              backgroundSize: "200% 200%",
+              animation: "metalShimmer 9s linear infinite",
+            }}
+          >
+            <div className="rounded-[5px] bg-black/85 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]">
+              <input
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={handlePromptKeyDown}
+                placeholder="rainy day, my grandmother's cardigan, confident energy..."
+                className="w-full bg-transparent font-mono text-base text-[#7CFF9C] placeholder:text-[#7CFF9C]/40 focus:outline-none"
+              />
+              <div className="mt-2 flex items-center justify-between">
+                <p className="font-mono text-xs text-[#7CFF9C]/70">
+                  &gt; sensing: {vibe || "open to anything"}
+                </p>
+                <button
+                  onClick={generateOutfit}
+                  title="Generate from this"
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-[#4ADE80]/60 bg-black text-[#7CFF9C] shadow-[0_0_12px_rgba(74,222,128,0.5)] transition hover:bg-[#0f2b16]"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M5 12 H19 M13 6 L19 12 L13 18" />
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Moodboard — asymmetric */}
-        <div className="mt-16 flex flex-wrap items-start justify-center gap-x-5 gap-y-8 md:justify-start">
+        {/* Moodboard — floating 3D cards with cursor parallax */}
+        <div
+          ref={stageRef}
+          onMouseMove={handleStageMouseMove}
+          onMouseLeave={handleStageMouseLeave}
+          className="relative mt-16 flex flex-wrap items-start justify-center gap-x-5 gap-y-8 [perspective:1400px] md:justify-start"
+        >
           {CATEGORIES.map((cat, i) => {
             const item = outfit[cat];
             const isLocked = locked[cat];
-            const { tilt, offsetY, width } = LAYOUT[i];
+            const { tilt: staticTilt, offsetY, width } = LAYOUT[i];
+
+            if (!item) return null;
+
+            const depth = 8 + i * 4;
+
             return (
               <div
                 key={cat}
-                style={{ transform: `translateY(${offsetY}px) rotate(${tilt}deg)` }}
-                className={`group relative flex-shrink-0 rounded-sm border p-3 pb-4 transition hover:z-10 hover:rotate-0 hover:scale-105 ${width} ${
-                  isLocked ? "border-[#C6A15B] bg-[#271D3D]" : "border-[#C6A15B]/25 bg-[#1D1530]"
+                className={`group relative flex-shrink-0 rounded-sm border p-3 pb-4 transition-transform duration-150 ease-out ${width} ${
+                  isLocked
+                    ? "border-[#7CFF9C] bg-[#0b1a0f]/80"
+                    : "border-[#b0b0b0]/80 bg-[#0e0e0e]/90"
                 }`}
+                style={{
+                  transform: `translateY(${offsetY}px) rotate3d(${-tilt.y}, ${tilt.x}, 0, 10deg) rotate(${staticTilt}deg) translate3d(${tilt.x * depth}px, ${tilt.y * depth}px, ${depth}px)`,
+                  /* CHANGED: card frame now reads as an actual brushed-metal
+                     bezel (light/dark diagonal bands + bevel highlight/shadow)
+                     with an ambient glow, matching the reference image —
+                     this is the only change in the file. */
+                  background:
+                    "linear-gradient(135deg, #eeeeee 0%, #9a9a9a 12%, #3a3a3a 26%, #cfcfcf 40%, #4a4a4a 55%, #1a1a1a 70%, #b5b5b5 85%, #2e2e2e 100%)",
+                  boxShadow: isLocked
+                    ? "inset 0 2px 1px rgba(255,255,255,0.85), inset 0 -3px 8px rgba(0,0,0,0.8), 0 0 0 2px rgba(124,255,156,0.85), 0 0 28px rgba(124,255,156,0.5), 0 20px 35px -15px rgba(0,0,0,0.85)"
+                    : "inset 0 2px 1px rgba(255,255,255,0.85), inset 0 -3px 8px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.3), 0 0 16px rgba(124,255,156,0.25), 0 20px 35px -15px rgba(0,0,0,0.85)",
+                }}
               >
-                <div className="absolute -top-2.5 left-1/2 h-3 w-8 -translate-x-1/2 rounded-sm bg-[#C6A15B]/70" />
+                <div className="absolute -top-2.5 left-1/2 h-3 w-8 -translate-x-1/2 rounded-sm bg-[#7CFF9C]/80 shadow-[0_0_8px_rgba(124,255,156,0.8)]" />
 
-                {isLocked && <span className="absolute right-3 top-3 z-10 text-[#E4C989]">✦</span>}
+                {isLocked && (
+                  <span className="absolute right-3 top-3 z-10 text-[#7CFF9C] [text-shadow:0_0_6px_rgba(124,255,156,0.8)]">
+                    ✦
+                  </span>
+                )}
 
                 <div
-                  className="aspect-[3/4] w-full bg-cover bg-center bg-gradient-to-b from-[#241C38] to-[#0E0916]"
-                  style={{ backgroundImage: `url('${item.image}')` }}
+                  className="aspect-[3/4] w-full bg-cover bg-center"
+                  style={{
+                    backgroundImage: `url('${item.image}')`,
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -2px 8px rgba(0,0,0,0.5)",
+                    border: "1px solid rgba(255,255,255,0.45)",
+                  }}
                 />
 
                 <div className="mt-3">
-                  <p className="text-[11px] capitalize text-[#9C90AF]">{cat}</p>
-                  <p className="mt-0.5 text-sm font-medium leading-tight text-[#F3EEE7]">{item.name}</p>
-                  <p className="mt-1 text-sm text-[#C6A15B]">₹{item.price}</p>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#7CFF9C]/70">{cat}</p>
+                  <p className="mt-1 text-sm leading-tight text-[#DFFFE6]">{item.name}</p>
+                  <p className="mt-1 font-mono text-sm text-[#7CFF9C]">₹{item.price}</p>
                 </div>
 
                 <button
                   onClick={() => toggleLock(cat)}
-                  className={`mt-3 w-full rounded-sm py-1.5 text-xs font-medium transition ${
+                  className={`mt-3 w-full rounded-sm border py-1.5 font-mono text-xs font-medium transition ${
                     isLocked
-                      ? "bg-[#C6A15B] text-[#120D1B]"
-                      : "border border-[#C6A15B]/40 text-[#F3EEE7] hover:border-[#C6A15B] hover:bg-[#C6A15B]/10"
+                      ? "border-[#7CFF9C] bg-[#7CFF9C]/15 text-[#7CFF9C] shadow-[0_0_10px_rgba(124,255,156,0.25)]"
+                      : "border-[#b1b1b1] bg-[#171717] text-[#DFFFE6] hover:border-[#7CFF9C] hover:bg-[#0e1c12]"
                   }`}
                 >
                   {isLocked ? "Held for this look" : "Hold this piece"}
@@ -228,18 +376,63 @@ export default function StylistPage() {
           })}
         </div>
 
-        {/* Total bar — bigger, cleaner */}
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-[#C6A15B]/25 bg-[#1D1530] px-8 py-7">
-          <p className="stylist-serif text-4xl italic text-[#F3EEE7] md:text-5xl">₹{total}</p>
+        {/* Bottom bar — real brushed-metal panel, not just a thin border */}
+        <div
+          className="relative mt-14 overflow-hidden rounded-[24px] border border-[#d7d7d7]/70"
+          style={{
+            background:
+              "linear-gradient(120deg, #b9b9b9 0%, #7a7a7a 12%, #3a3a3a 28%, #d6d6d6 42%, #4f4f4f 58%, #1e1e1e 74%, #a9a9a9 100%)",
+            boxShadow:
+              "inset 0 2px 2px rgba(255,255,255,0.9), inset 0 -5px 12px rgba(0,0,0,0.8), 0 20px 50px -15px rgba(0,0,0,0.8)",
+          }}
+        >
+          <div
+            className="pointer-events-none absolute inset-y-0 left-[16%] w-[28%] bg-black/35"
+            style={{ clipPath: "polygon(18% 0, 100% 0, 75% 100%, 0 100%)" }}
+          />
 
-          <button
-            onClick={generateOutfit}
-            className="rounded-full bg-[#C6A15B] px-8 py-3.5 text-base font-medium text-[#120D1B] transition hover:bg-[#E4C989]"
-          >
-            Reveal a new look
-          </button>
+          <div className="relative flex flex-wrap items-center justify-between gap-6 px-8 py-7">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-widest text-[#0a3d1a]">
+                {fullOutfit ? "full outfit" : `${heldCount} of ${CATEGORIES.length} held`}
+              </p>
+              <p className="stylist-serif text-4xl italic text-[#7CFF9C] [text-shadow:0_0_16px_rgba(124,255,156,0.7)] md:text-5xl">
+                ₹{fullOutfit ? total : heldTotal || total}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={generateOutfit}
+                className="rounded-full border border-[#4ADE80]/60 bg-black/45 px-6 py-3 font-mono text-sm text-[#DFFFE6] transition hover:border-[#4ADE80] hover:bg-black/70"
+              >
+                Reveal a new look
+              </button>
+
+              {fullOutfit ? (
+                <button
+                  onClick={handleBuyNow}
+                  className="rounded-full bg-[#4ADE80] px-8 py-3.5 font-semibold text-black shadow-[0_0_20px_rgba(74,222,128,0.6)] transition hover:-translate-y-0.5 hover:bg-[#7CFF9C]"
+                >
+                  Buy now — full outfit
+                </button>
+              ) : (
+                <button
+                  onClick={handleAddToCart}
+                  disabled={heldCount === 0}
+                  className="rounded-full border-2 border-[#4ADE80] bg-black/45 px-8 py-3.5 font-semibold text-[#7CFF9C] transition hover:-translate-y-0.5 hover:bg-[#4ADE80]/20 disabled:cursor-not-allowed disabled:border-[#4ADE80]/50 disabled:bg-black/30 disabled:text-[#7CFF9C]/60 disabled:hover:translate-y-0"
+                >
+                  Add to cart {heldCount > 0 ? `(${heldCount})` : ""}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
+        <p className="mt-3 text-center font-mono text-[11px] text-[#7CFF9C]/50">
+          {orderMessage ||
+            "Buy now unlocks once all 5 pieces are held — otherwise, add your picks to cart."}
+        </p>
       </div>
     </main>
   );
