@@ -72,14 +72,11 @@ export default function Womenswear() {
 
         {/* Top HUD */}
         <div className="mb-8 flex items-center justify-between border-b border-[#32174D] pb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#f09acb]">
-          <span>TM // WOMENSWEAR</span>
+          
 
-          <span className="hidden items-center gap-2 sm:flex">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#f09acb] shadow-[0_0_12px_#f09acb]" />
-            SYSTEM ONLINE
-          </span>
+          
 
-          <span className="text-[#b98ce8]">SECTOR_02</span>
+          
         </div>
 
         {/* Header */}
@@ -115,11 +112,7 @@ export default function Womenswear() {
         {/* Womenswear Search */}
         <div className="relative mb-14">
 
-          <div className="mb-3 flex items-center justify-between px-2 text-[9px] font-bold uppercase tracking-[0.25em] text-[#8b6aa5]">
-            <span>SEARCH_DATABASE</span>
-            <span className="text-[#d886b1]">WOMEN_ONLY // ACTIVE</span>
-          </div>
-
+         
           <form
             action="/marketplace/search"
             method="get"
@@ -231,9 +224,7 @@ export default function Womenswear() {
             <div className="mt-2 h-px w-20 bg-gradient-to-r from-[#a855f7] to-[#f09acb]" />
           </div>
 
-          <p className="hidden text-[10px] font-bold uppercase tracking-[0.2em] text-[#68477d] sm:block">
-            05 MODULES DETECTED
-          </p>
+          
 
         </div>
 
@@ -282,9 +273,7 @@ export default function Womenswear() {
                 {/* Image HUD */}
                 <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">
 
-                  <span>
-                    TM // {category.name.toUpperCase()}
-                  </span>
+                  
 
                   <span className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#f09acb] shadow-[0_0_10px_#f09acb]" />
@@ -323,9 +312,7 @@ export default function Womenswear() {
                     <span className="h-1 w-2 rounded-full bg-[#45245d]" />
                   </div>
 
-                  <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#76518b]">
-                    ACCESS MODULE
-                  </span>
+                  
 
                 </div>
 
@@ -342,14 +329,11 @@ export default function Womenswear() {
         {/* Bottom HUD */}
         <div className="mt-14 flex flex-col gap-3 border-t border-[#32174D] pt-5 text-[9px] font-bold uppercase tracking-[0.25em] text-[#65477a] sm:flex-row sm:items-center sm:justify-between">
 
-          <span>THRIFTMATCH // WOMENSWEAR_DATABASE</span>
+     
 
-          <span className="flex items-center gap-2 text-[#b7789c]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#f09acb] shadow-[0_0_10px_#f09acb]" />
-            CONNECTION_STABLE
-          </span>
+          
 
-          <span>TM_OS v1.0</span>
+          
 
         </div>
 

@@ -64,14 +64,9 @@ return (
 
   <div className="relative z-10 mx-auto mb-12 flex max-w-7xl items-center justify-between border-b border-purple-500/20 pb-4">
 
-    <div className="flex items-center gap-3 font-mono text-[10px] tracking-[0.35em] text-purple-300">
-      <span className="h-2 w-2 animate-pulse rounded-full bg-fuchsia-400 shadow-[0_0_12px_#d946ef]" />
-      SYSTEM // ONLINE
-    </div>
+    
 
-    <div className="hidden font-mono text-[10px] tracking-[0.25em] text-white/30 sm:block">
-      TM_OS // MARKETPLACE_01
-    </div>
+    
 
   </div>
 
@@ -164,22 +159,13 @@ return (
 
           {/* Corner HUD */}
 
-          <div className="absolute left-5 top-5 z-30 font-mono text-[9px] tracking-[0.3em] text-[#D4AF37]/70">
-            TM // M-01
-          </div>
-
-          <div className="absolute right-5 top-5 z-30 flex items-center gap-2 font-mono text-[9px] tracking-widest text-white/60">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#D4AF37] shadow-[0_0_8px_#D4AF37]" />
-            ONLINE
-          </div>
+          
 
           {/* Bottom image label */}
 
           <div className="absolute bottom-5 left-5 z-30">
 
-            <p className="font-mono text-[9px] tracking-[0.3em] text-[#D4AF37]">
-              SECTOR 01
-            </p>
+            
 
             <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-white/70">
               Mens Division
@@ -209,9 +195,7 @@ return (
 
           <div className="mt-4 flex items-center justify-between border-t border-[#D4AF37]/15 pt-4">
 
-            <span className="font-mono text-[10px] tracking-[0.2em] text-white/30">
-              ACCESS SECTOR
-            </span>
+            
 
             <span className="inline-flex items-center gap-3 rounded-full border border-[#D4AF37]/50 bg-[#D4AF37]/10 px-5 py-2.5 text-xs font-bold text-[#D4AF37] transition-all duration-300 group-hover:border-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#17130a] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.5)]">
               Explore Menswear
@@ -265,20 +249,13 @@ return (
 
           {/* HUD */}
 
-          <div className="absolute left-5 top-5 z-30 font-mono text-[9px] tracking-[0.3em] text-fuchsia-200/70">
-            TM // W-02
-          </div>
+          
 
-          <div className="absolute right-5 top-5 z-30 flex items-center gap-2 font-mono text-[9px] tracking-widest text-white/60">
-            <span className="h-1.5 w-1.5 rounded-full bg-fuchsia-400 shadow-[0_0_8px_#ec4899]" />
-            ONLINE
-          </div>
+          
 
           <div className="absolute bottom-5 left-5 z-30">
 
-            <p className="font-mono text-[9px] tracking-[0.3em] text-fuchsia-300">
-              SECTOR 02
-            </p>
+            
 
             <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-white/70">
               Womens Division
@@ -308,9 +285,7 @@ return (
 
           <div className="mt-4 flex items-center justify-between border-t border-fuchsia-500/15 pt-4">
 
-            <span className="font-mono text-[10px] tracking-[0.2em] text-white/30">
-              ACCESS SECTOR
-            </span>
+            
 
             <span className="inline-flex items-center gap-3 rounded-full border border-fuchsia-400/50 bg-fuchsia-500/10 px-5 py-2.5 text-xs font-bold text-fuchsia-200 transition-all duration-300 group-hover:border-fuchsia-300 group-hover:bg-fuchsia-500 group-hover:text-white group-hover:shadow-[0_0_25px_rgba(236,72,153,0.5)]">
               Explore Womenswear
@@ -333,13 +308,13 @@ return (
 
     <div className="mt-12 flex items-center justify-between border-t border-purple-500/10 pt-5 font-mono text-[9px] tracking-[0.25em] text-white/20">
 
-      <span>THRIFTMATCH NETWORK</span>
+      <span>THRIFTMATCH</span>
 
       <span className="hidden sm:block">
         SECOND LIFE // NEW IDENTITY
       </span>
 
-      <span>TM_01</span>
+      
 
     </div>
 

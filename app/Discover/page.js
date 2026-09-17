@@ -70,16 +70,7 @@ export default function Discover() {
         {/* Top HUD */}
         <div className="mb-8 flex items-center justify-between border-b border-[#3b2723] pb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#9A6051]">
 
-          <span>TM // DISCOVER</span>
-
-          <span className="hidden items-center gap-2 sm:flex">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#9A6051] shadow-[0_0_12px_#9A6051]" />
-            FEED ONLINE
-          </span>
-
-          <span className="text-[#765149]">
-            MODULE_06
-          </span>
+          
 
         </div>
 
@@ -90,9 +81,7 @@ export default function Discover() {
 
             <span className="h-px w-10 bg-[#9A6051]" />
 
-            <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#b87967]">
-              THRIFTMATCH / DISCOVER
-            </p>
+            
 
             <span className="h-px flex-1 bg-gradient-to-r from-[#9A6051] to-transparent" />
 
@@ -122,9 +111,7 @@ export default function Discover() {
         <div className="mb-6 flex items-end justify-between">
 
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#70544c]">
-              DISCOVERY_FEED
-            </p>
+            
 
             <div className="mt-2 h-px w-24 bg-gradient-to-r from-[#633d34] to-[#9A6051]" />
           </div>
@@ -200,14 +187,7 @@ export default function Discover() {
                   {/* Image HUD */}
                   <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">
 
-                    <span>
-                      TM // DISCOVER_{String(index + 1).padStart(2, "0")}
-                    </span>
-
-                    <span className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#9A6051] shadow-[0_0_10px_#9A6051]" />
-                      AVAILABLE
-                    </span>
+                    
 
                   </div>
 
@@ -233,7 +213,7 @@ export default function Discover() {
                     </div>
 
                     <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#70544c]">
-                      ITEM VERIFIED
+                      ITEM VERIFIED ✔️
                     </span>
 
                   </div>
@@ -262,18 +242,9 @@ export default function Discover() {
         {/* Bottom HUD */}
         <div className="mt-14 flex flex-col gap-3 border-t border-[#3b2723] pt-5 text-[9px] font-bold uppercase tracking-[0.25em] text-[#5f4740] sm:flex-row sm:items-center sm:justify-between">
 
-          <span>
-            THRIFTMATCH // DISCOVERY_DATABASE
-          </span>
+          
 
-          <span className="flex items-center gap-2 text-[#8f5c4e]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#9A6051] shadow-[0_0_10px_#9A6051]" />
-            CONNECTION_STABLE
-          </span>
-
-          <span>
-            TM_OS v1.0
-          </span>
+          
 
         </div>
 

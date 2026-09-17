@@ -45,16 +45,7 @@ export default async function MenswearOuterwear() {
         {/* Top HUD */}
         <div className="mb-8 flex items-center justify-between border-b border-[#32174D] pb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#c6a15b]">
 
-          <span>TM // MENSWEAR</span>
-
-          <span className="hidden items-center gap-2 sm:flex">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#c6a15b] shadow-[0_0_12px_#c6a15b]" />
-            SYSTEM ONLINE
-          </span>
-
-          <span className="text-[#b98ce8]">
-            MODULE_05
-          </span>
+         
 
         </div>
 
@@ -96,9 +87,7 @@ export default async function MenswearOuterwear() {
         <div className="mb-6 flex items-end justify-between">
 
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#8b6aa5]">
-              OUTERWEAR_DATABASE
-            </p>
+            
 
             <div className="mt-2 h-px w-24 bg-gradient-to-r from-[#a855f7] to-[#c6a15b]" />
           </div>
@@ -160,14 +149,7 @@ export default async function MenswearOuterwear() {
                 {/* Image HUD */}
                 <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">
 
-                  <span>
-                    TM // OUTERWEAR_{String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  <span className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#c6a15b] shadow-[0_0_10px_#c6a15b]" />
-                    AVAILABLE
-                  </span>
+                  
 
                 </div>
 
@@ -198,7 +180,7 @@ export default async function MenswearOuterwear() {
                   </div>
 
                   <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#76518b]">
-                    ITEM VERIFIED
+                    ITEM VERIFIED ✔️ 
                   </span>
 
                 </div>
@@ -221,18 +203,7 @@ export default async function MenswearOuterwear() {
         {/* Bottom HUD */}
         <div className="mt-14 flex flex-col gap-3 border-t border-[#32174D] pt-5 text-[9px] font-bold uppercase tracking-[0.25em] text-[#65477a] sm:flex-row sm:items-center sm:justify-between">
 
-          <span>
-            THRIFTMATCH // MENSWEAR_OUTERWEAR_DATABASE
-          </span>
-
-          <span className="flex items-center gap-2 text-[#a88c55]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#c6a15b] shadow-[0_0_10px_#c6a15b]" />
-            CONNECTION_STABLE
-          </span>
-
-          <span>
-            TM_OS v1.0
-          </span>
+          
 
         </div>
 

@@ -412,9 +412,7 @@ export default function Menswear() {
             <div className="mt-2 h-px w-20 bg-gradient-to-r from-[#a855f7] to-[#c6a15b]" />
           </div>
 
-          <p className="hidden text-[10px] font-bold uppercase tracking-[0.2em] text-[#68477d] sm:block">
-            05 MODULES DETECTED
-          </p>
+          
         </div>
 
         {/* Categories */}
@@ -461,7 +459,7 @@ export default function Menswear() {
 
                 {/* Image HUD */}
                 <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.2em] text-white/70">
-                  <span>TM // {category.name.toUpperCase()}</span>
+                  
 
                   <span className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#c6a15b] shadow-[0_0_10px_#c6a15b]" />
@@ -499,9 +497,7 @@ export default function Menswear() {
                     <span className="h-1 w-2 rounded-full bg-[#45245d]" />
                   </div>
 
-                  <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#76518b]">
-                    ACCESS MODULE
-                  </span>
+                  
 
                 </div>
 
@@ -518,14 +514,11 @@ export default function Menswear() {
         {/* Bottom HUD */}
         <div className="mt-14 flex flex-col gap-3 border-t border-[#32174D] pt-5 text-[9px] font-bold uppercase tracking-[0.25em] text-[#65477a] sm:flex-row sm:items-center sm:justify-between">
 
-          <span>THRIFTMATCH // MENSWEAR_DATABASE</span>
+          
 
-          <span className="flex items-center gap-2 text-[#927b56]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#c6a15b] shadow-[0_0_10px_#c6a15b]" />
-            CONNECTION_STABLE
-          </span>
+          
 
-          <span>TM_OS v1.0</span>
+          
 
         </div>
 
