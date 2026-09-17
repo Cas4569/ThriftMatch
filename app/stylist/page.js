@@ -11,7 +11,14 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-import { db } from "@/lib/firebase";
+import {
+  auth,
+  db,
+} from "@/lib/firebase";
+
+import {
+  addCartItem,
+} from "@/lib/cart";
 
 const CATEGORIES = [
   "outerwear",
@@ -20,9 +27,6 @@ const CATEGORIES = [
   "footwear",
   "accessories",
 ];
-
-const cartStorageKey =
-  "thriftmatch-cart";
 
 const LAYOUT = [
   {
@@ -95,9 +99,6 @@ export default function StylistPage() {
       y: 0,
     });
 
-  const [cart, setCart] =
-    useState([]);
-
   const [orderMessage, setOrderMessage] =
     useState("");
 
@@ -137,68 +138,6 @@ export default function StylistPage() {
 
   /*
    * ---------------------------------------
-   * CART
-   * ---------------------------------------
-   */
-
-  useEffect(() => {
-    try {
-      const savedCart =
-        JSON.parse(
-          localStorage.getItem(
-            cartStorageKey
-          ) || "[]"
-        );
-
-      const uniqueCart =
-        Array.isArray(savedCart)
-          ? savedCart.filter(
-              (item, index, items) =>
-                item?.id &&
-                items.findIndex(
-                  (entry) =>
-                    entry.id ===
-                    item.id
-                ) === index
-            )
-          : [];
-
-      setCart(uniqueCart);
-
-      localStorage.setItem(
-        cartStorageKey,
-        JSON.stringify(
-          uniqueCart
-        )
-      );
-
-      window.dispatchEvent(
-        new Event(
-          "thriftmatch-cart-updated"
-        )
-      );
-    } catch {
-      setCart([]);
-    }
-  }, []);
-
-  function syncCart(nextCart) {
-    localStorage.setItem(
-      cartStorageKey,
-      JSON.stringify(nextCart)
-    );
-
-    window.dispatchEvent(
-      new Event(
-        "thriftmatch-cart-updated"
-      )
-    );
-
-    setCart(nextCart);
-  }
-
-  /*
-   * ---------------------------------------
    * FIRESTORE PRODUCTS
    * ---------------------------------------
    */
@@ -206,6 +145,8 @@ export default function StylistPage() {
   useEffect(() => {
     async function loadProducts() {
       try {
+        setLoadError("");
+
         const snapshot =
           await getDocs(
             collection(
@@ -237,6 +178,10 @@ export default function StylistPage() {
                 .trim()
                 .toLowerCase();
 
+            /*
+             * Ignore products that aren't
+             * in one of the Stylist categories.
+             */
             if (
               !nextCatalog[
                 category
@@ -308,11 +253,6 @@ export default function StylistPage() {
 
               keywords,
 
-              /*
-               * These optional fields are
-               * useful to Gemini if they exist
-               * in your Firestore documents.
-               */
               color:
                 product.color ||
                 "",
@@ -337,9 +277,8 @@ export default function StylistPage() {
         );
 
         /*
-         * Initial display.
-         * These will be replaced when the AI
-         * generates the first actual look.
+         * Give the page an initial outfit.
+         * The actual AI-generated outfit replaces this.
          */
         const initial = {};
 
@@ -354,7 +293,10 @@ export default function StylistPage() {
 
         setOutfit(initial);
       } catch (error) {
-        console.error(error);
+        console.error(
+          "PRODUCT LOAD ERROR:",
+          error
+        );
 
         setLoadError(
           "We couldn't load products from the marketplace."
@@ -367,7 +309,7 @@ export default function StylistPage() {
 
   /*
    * ---------------------------------------
-   * CONVERT FIRESTORE CATALOG INTO AI DATA
+   * CONVERT CATALOG TO AI DATA
    * ---------------------------------------
    */
 
@@ -417,6 +359,17 @@ export default function StylistPage() {
       return;
     }
 
+    const trimmedPrompt =
+      prompt.trim();
+
+    if (!trimmedPrompt) {
+      setAiError(
+        "Tell the stylist what you're looking for first."
+      );
+
+      return;
+    }
+
     setGenerating(true);
     setAiError("");
     setOrderMessage("");
@@ -426,19 +379,23 @@ export default function StylistPage() {
         buildAICatalog();
 
       /*
-       * Currently locked pieces.
+       * Pieces the user has explicitly locked.
        */
       const lockedItems =
         CATEGORIES.map(
           (category) => {
             if (
-              !locked[category]
+              !locked[
+                category
+              ]
             ) {
               return null;
             }
 
             const item =
-              outfit[category];
+              outfit[
+                category
+              ];
 
             if (!item) {
               return null;
@@ -457,22 +414,25 @@ export default function StylistPage() {
         ).filter(Boolean);
 
       /*
-       * Previously displayed items.
-       *
-       * Gemini uses these to create variety
-       * on "Reveal a new look".
+       * Pieces currently shown that AI
+       * should preferably avoid replacing
+       * with the exact same item.
        */
       const avoidItems =
         CATEGORIES.map(
           (category) => {
             if (
-              locked[category]
+              locked[
+                category
+              ]
             ) {
               return null;
             }
 
             const item =
-              outfit[category];
+              outfit[
+                category
+              ];
 
             if (!item) {
               return null;
@@ -499,7 +459,8 @@ export default function StylistPage() {
             },
 
             body: JSON.stringify({
-              prompt,
+              prompt:
+                trimmedPrompt,
 
               catalog:
                 aiCatalog,
@@ -511,19 +472,36 @@ export default function StylistPage() {
           }
         );
 
-      const data =
-        await response.json();
+      const responseText =
+        await response.text();
+
+      let data = {};
+
+      try {
+        data =
+          responseText
+            ? JSON.parse(
+                responseText
+              )
+            : {};
+      } catch {
+        data = {
+          error:
+            responseText ||
+            "The styling service returned an invalid response.",
+        };
+      }
 
       if (!response.ok) {
         throw new Error(
           data?.error ||
-            "Gemini could not generate an outfit."
+            `Styling request failed with HTTP ${response.status}.`
         );
       }
 
       /*
-       * Map AI product IDs back to the
-       * actual Firestore product objects.
+       * Map product IDs returned by Gemini
+       * back to the actual Firestore products.
        */
       const itemMap =
         new Map();
@@ -552,24 +530,42 @@ export default function StylistPage() {
           };
 
           /*
-           * Never let AI replace a piece
-           * that the user explicitly locked.
+           * Never replace a piece that
+           * the user locked.
            */
           for (const selection of
             data.selections ||
             []) {
             const category =
-              selection.category;
+              String(
+                selection.category ||
+                  ""
+              )
+                .trim()
+                .toLowerCase();
 
             if (
-              locked[category]
+              !CATEGORIES.includes(
+                category
+              )
             ) {
               continue;
             }
 
+            if (
+              locked[
+                category
+              ]
+            ) {
+              continue;
+            }
+
+            const productId =
+              selection.productId;
+
             const item =
               itemMap.get(
-                selection.productId
+                productId
               );
 
             if (!item) {
@@ -585,7 +581,8 @@ export default function StylistPage() {
       );
 
       setStyleIntent(
-        data.intent || null
+        data.intent ||
+          null
       );
 
       setStyleReason(
@@ -594,7 +591,7 @@ export default function StylistPage() {
       );
     } catch (error) {
       console.error(
-        "AI styling error:",
+        "AI STYLING ERROR:",
         error
       );
 
@@ -635,11 +632,11 @@ export default function StylistPage() {
   function toggleLock(
     category
   ) {
-    setLocked((prev) => ({
-      ...prev,
+    setLocked((previous) => ({
+      ...previous,
 
       [category]:
-        !prev[category],
+        !previous[category],
     }));
   }
 
@@ -662,7 +659,9 @@ export default function StylistPage() {
   const heldCategories =
     CATEGORIES.filter(
       (category) =>
-        locked[category]
+        locked[
+          category
+        ]
     );
 
   const heldCount =
@@ -684,11 +683,39 @@ export default function StylistPage() {
 
   /*
    * ---------------------------------------
-   * CART
+   * FIRESTORE CART
+   * ---------------------------------------
+   *
+   * IMPORTANT:
+   *
+   * This used to use localStorage.
+   *
+   * It now uses the exact same Firestore
+   * cart as marketplace product pages.
+   *
+   * carts/{user.uid}/items/{productId}
    * ---------------------------------------
    */
 
-  function handleAddToCart() {
+  async function handleAddToCart() {
+    const user =
+      auth.currentUser;
+
+    /*
+     * Require authentication.
+     */
+    if (!user) {
+      setOrderMessage(
+        "Please sign in before adding pieces to your cart."
+      );
+
+      return;
+    }
+
+    /*
+     * Get the pieces explicitly held
+     * by the user.
+     */
     const itemsToAdd =
       heldCategories
         .map(
@@ -699,38 +726,62 @@ export default function StylistPage() {
         )
         .filter(Boolean);
 
-    const savedCart =
-      JSON.parse(
-        localStorage.getItem(
-          cartStorageKey
-        ) || "[]"
+    /*
+     * Nothing selected.
+     */
+    if (
+      itemsToAdd.length ===
+      0
+    ) {
+      setOrderMessage(
+        "Hold at least one piece first."
       );
 
-    const nextCart = [
-      ...savedCart,
-      ...itemsToAdd,
-    ].filter(
-      (item, index, items) =>
-        item?.id &&
-        items.findIndex(
-          (entry) =>
-            entry.id ===
-            item.id
-        ) === index
-    );
+      return;
+    }
 
-    syncCart(
-      nextCart
-    );
+    try {
+      setOrderMessage(
+        "Adding pieces to your cart..."
+      );
 
-    setOrderMessage(
-      `Added ${itemsToAdd.length} piece${
-        itemsToAdd.length ===
-        1
-          ? ""
-          : "s"
-      } to cart.`
-    );
+      /*
+       * Add each product to Firestore.
+       *
+       * addCartItem() verifies the product
+       * still exists and writes:
+       *
+       * carts/{uid}/items/{productId}
+       */
+      await Promise.all(
+        itemsToAdd.map(
+          (item) =>
+            addCartItem(
+              user.uid,
+              item.id
+            )
+        )
+      );
+
+      setOrderMessage(
+        `Added ${itemsToAdd.length} piece${
+          itemsToAdd.length ===
+          1
+            ? ""
+            : "s"
+        } to cart.`
+      );
+    } catch (error) {
+      console.error(
+        "STYLIST ADD TO CART ERROR:",
+        error
+      );
+
+      setOrderMessage(
+        error?.message ||
+          "Couldn't add the selected pieces to your cart."
+      );
+    }
   }
 
   /*
@@ -821,7 +872,7 @@ export default function StylistPage() {
             }}
           />
 
-          {/* Radial background */}
+          {/* Background */}
           <div
             className="pointer-events-none absolute inset-0"
             style={{
@@ -833,9 +884,15 @@ export default function StylistPage() {
           <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-[#26E600]/10 blur-[160px]" />
 
           <div className="relative mx-auto max-w-6xl">
+
+            {/* -------------------------------- */}
             {/* HEADER */}
+            {/* -------------------------------- */}
+
             <div className="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+
               <div className="max-w-lg">
+
                 <p className="mb-3 font-mono text-xs uppercase tracking-widest text-[#7CFF9C]/70">
                   System initialized: a private styling session, run by the machine.
                 </p>
@@ -847,42 +904,60 @@ export default function StylistPage() {
                 {/* AI STYLE PROFILE */}
                 {styleIntent && (
                   <div className="mt-5 rounded-md border border-[#7CFF9C]/20 bg-black/30 px-4 py-3">
+
                     <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#7CFF9C]/50">
                       AI STYLE PROFILE
                     </p>
 
                     <div className="mt-2 flex flex-wrap gap-2">
-                      <span className="rounded-full border border-[#7CFF9C]/30 px-3 py-1 font-mono text-xs text-[#7CFF9C]">
-                        {styleIntent.occasion}
-                      </span>
 
-                      <span className="rounded-full border border-[#7CFF9C]/30 px-3 py-1 font-mono text-xs text-[#7CFF9C]">
-                        {styleIntent.vibe}
-                      </span>
+                      {styleIntent.occasion && (
+                        <span className="rounded-full border border-[#7CFF9C]/30 px-3 py-1 font-mono text-xs text-[#7CFF9C]">
+                          {styleIntent.occasion}
+                        </span>
+                      )}
 
-                      <span className="rounded-full border border-[#7CFF9C]/30 px-3 py-1 font-mono text-xs text-[#7CFF9C]">
-                        {styleIntent.formality}
-                      </span>
+                      {styleIntent.vibe && (
+                        <span className="rounded-full border border-[#7CFF9C]/30 px-3 py-1 font-mono text-xs text-[#7CFF9C]">
+                          {styleIntent.vibe}
+                        </span>
+                      )}
 
-                      <span className="rounded-full border border-[#7CFF9C]/30 px-3 py-1 font-mono text-xs text-[#7CFF9C]">
-                        {styleIntent.colorDirection}
-                      </span>
+                      {styleIntent.formality && (
+                        <span className="rounded-full border border-[#7CFF9C]/30 px-3 py-1 font-mono text-xs text-[#7CFF9C]">
+                          {styleIntent.formality}
+                        </span>
+                      )}
+
+                      {styleIntent.colorDirection && (
+                        <span className="rounded-full border border-[#7CFF9C]/30 px-3 py-1 font-mono text-xs text-[#7CFF9C]">
+                          {styleIntent.colorDirection}
+                        </span>
+                      )}
+
                     </div>
 
-                    <p className="mt-3 font-mono text-xs leading-5 text-[#DFFFE6]/70">
-                      {styleIntent.summary}
-                    </p>
+                    {styleIntent.summary && (
+                      <p className="mt-3 font-mono text-xs leading-5 text-[#DFFFE6]/70">
+                        {styleIntent.summary}
+                      </p>
+                    )}
 
                     {styleReason && (
                       <p className="mt-2 font-mono text-xs leading-5 text-[#7CFF9C]/70">
                         {styleReason}
                       </p>
                     )}
+
                   </div>
                 )}
+
               </div>
 
+              {/* -------------------------------- */}
               {/* AI PROMPT */}
+              {/* -------------------------------- */}
+
               <div
                 className="relative w-full rounded-md p-[3px] md:w-80"
                 style={{
@@ -899,7 +974,9 @@ export default function StylistPage() {
                     "metalShimmer 9s linear infinite",
                 }}
               >
+
                 <div className="rounded-[5px] bg-black/85 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]">
+
                   <input
                     value={prompt}
                     onChange={(e) =>
@@ -915,8 +992,11 @@ export default function StylistPage() {
                   />
 
                   <div className="mt-2 flex items-center justify-between gap-3">
+
                     <p className="font-mono text-xs text-[#7CFF9C]/70">
+
                       &gt; sensing:{" "}
+
                       {generating ? (
                         <span className="ai-pulse">
                           interpreting request...
@@ -925,6 +1005,7 @@ export default function StylistPage() {
                         styleIntent?.occasion ||
                         "AI ready"
                       )}
+
                     </p>
 
                     <button
@@ -953,19 +1034,26 @@ export default function StylistPage() {
                         </svg>
                       )}
                     </button>
+
                   </div>
                 </div>
               </div>
             </div>
 
+            {/* -------------------------------- */}
             {/* AI ERROR */}
+            {/* -------------------------------- */}
+
             {aiError && (
               <div className="mt-8 rounded-lg border border-red-400/30 bg-red-950/20 px-4 py-3 font-mono text-xs text-red-300">
                 {aiError}
               </div>
             )}
 
+            {/* -------------------------------- */}
             {/* MOODBOARD */}
+            {/* -------------------------------- */}
+
             <div
               ref={stageRef}
               onMouseMove={
@@ -976,13 +1064,18 @@ export default function StylistPage() {
               }
               className="relative mt-16 flex flex-wrap items-start justify-center gap-x-5 gap-y-8 [perspective:1400px] md:justify-start"
             >
+
               {CATEGORIES.map(
                 (cat, i) => {
                   const item =
-                    outfit[cat];
+                    outfit[
+                      cat
+                    ];
 
                   const isLocked =
-                    locked[cat];
+                    locked[
+                      cat
+                    ];
 
                   const {
                     tilt: staticTilt,
@@ -1018,14 +1111,18 @@ export default function StylistPage() {
                             : "inset 0 2px 1px rgba(255,255,255,0.85), inset 0 -3px 8px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.3), 0 0 16px rgba(124,255,156,0.25), 0 20px 35px -15px rgba(0,0,0,0.85)",
                       }}
                     >
+
+                      {/* Tape */}
                       <div className="absolute -top-2.5 left-1/2 h-3 w-8 -translate-x-1/2 rounded-sm bg-[#7CFF9C]/80 shadow-[0_0_8px_rgba(124,255,156,0.8)]" />
 
+                      {/* Locked icon */}
                       {isLocked && (
                         <span className="absolute right-3 top-3 z-10 text-[#7CFF9C] [text-shadow:0_0_6px_rgba(124,255,156,0.8)]">
                           ✦
                         </span>
                       )}
 
+                      {/* Product image */}
                       <div
                         className="aspect-[3/4] w-full bg-cover bg-center"
                         style={{
@@ -1039,7 +1136,9 @@ export default function StylistPage() {
                         }}
                       />
 
+                      {/* Product information */}
                       <div className="mt-3">
+
                         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#7CFF9C]/70">
                           {cat}
                         </p>
@@ -1051,9 +1150,12 @@ export default function StylistPage() {
                         <p className="mt-1 font-mono text-sm text-[#7CFF9C]">
                           ₹{item.price}
                         </p>
+
                       </div>
 
+                      {/* Lock */}
                       <button
+                        type="button"
                         onClick={() =>
                           toggleLock(
                             cat
@@ -1069,13 +1171,18 @@ export default function StylistPage() {
                           ? "Held for this look"
                           : "Hold this piece"}
                       </button>
+
                     </div>
                   );
                 }
               )}
+
             </div>
 
+            {/* -------------------------------- */}
             {/* BOTTOM BAR */}
+            {/* -------------------------------- */}
+
             <div
               className="relative mt-14 overflow-hidden rounded-[24px] border border-[#d7d7d7]/70"
               style={{
@@ -1086,6 +1193,7 @@ export default function StylistPage() {
                   "inset 0 2px 2px rgba(255,255,255,0.9), inset 0 -5px 12px rgba(0,0,0,0.8), 0 20px 50px -15px rgba(0,0,0,0.8)",
               }}
             >
+
               <div
                 className="pointer-events-none absolute inset-y-0 left-[16%] w-[28%] bg-black/35"
                 style={{
@@ -1095,7 +1203,9 @@ export default function StylistPage() {
               />
 
               <div className="relative flex flex-wrap items-center justify-between gap-6 px-8 py-7">
+
                 <div>
+
                   <p className="font-mono text-xs uppercase tracking-widest text-[#0a3d1a]">
                     {fullOutfit
                       ? "full outfit"
@@ -1109,10 +1219,13 @@ export default function StylistPage() {
                       : heldTotal ||
                         total}
                   </p>
+
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3">
+
                   <button
+                    type="button"
                     onClick={
                       generateOutfit
                     }
@@ -1128,6 +1241,7 @@ export default function StylistPage() {
 
                   {fullOutfit ? (
                     <button
+                      type="button"
                       onClick={
                         handleBuyNow
                       }
@@ -1137,6 +1251,7 @@ export default function StylistPage() {
                     </button>
                   ) : (
                     <button
+                      type="button"
                       onClick={
                         handleAddToCart
                       }
@@ -1149,16 +1264,21 @@ export default function StylistPage() {
                       Add held pieces to cart
                     </button>
                   )}
+
                 </div>
               </div>
             </div>
 
+            {/* -------------------------------- */}
             {/* ORDER MESSAGE */}
+            {/* -------------------------------- */}
+
             {orderMessage && (
               <p className="mt-4 text-center font-mono text-xs text-[#7CFF9C]">
                 {orderMessage}
               </p>
             )}
+
           </div>
         </main>
       )}

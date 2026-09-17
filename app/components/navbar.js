@@ -1,130 +1,175 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
 
-const cartStorageKey = "thriftmatch-cart";
+import {
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
+
+import { auth } from "@/lib/firebase";
+import { subscribeToCart } from "@/lib/cart";
 
 export default function Navbar() {
   const pathname = usePathname();
+
   const [user, setUser] = useState(null);
-  const [checking, setChecking] = useState(true);
   const [cartCount, setCartCount] = useState(0);
 
-  const isHomePage = pathname === "/";
-  const isMarketplacePage =
-    pathname === "/marketplace" ||
-    pathname.startsWith("/marketplace/") ||
-    pathname === "/stylist" ||
-    pathname.startsWith("/stylist/") ||
-    pathname === "/Discover" ||
-    pathname.startsWith("/Discover/") ||
-    pathname === "/cart";
-
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setChecking(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    function updateCartCount() {
-      const savedCart = JSON.parse(localStorage.getItem(cartStorageKey) || "[]");
-      const cart = savedCart.filter(
-        (item, index, items) => item?.id && items.findIndex((entry) => entry.id === item.id) === index,
-      );
-      localStorage.setItem(cartStorageKey, JSON.stringify(cart));
-      setCartCount(cart.length);
+    /*
+     * Do NOT subscribe to auth/cart on the homepage.
+     * The homepage has its own header.
+     */
+    if (pathname === "/") {
+      setUser(null);
+      setCartCount(0);
+      return;
     }
 
-    updateCartCount();
-    window.addEventListener("storage", updateCartCount);
-    window.addEventListener("thriftmatch-cart-updated", updateCartCount);
+    let unsubscribeCart = null;
+
+    const unsubscribeAuth =
+      onAuthStateChanged(
+        auth,
+        (currentUser) => {
+          if (!currentUser) {
+            setUser(null);
+            setCartCount(0);
+
+            if (unsubscribeCart) {
+              unsubscribeCart();
+              unsubscribeCart = null;
+            }
+
+            return;
+          }
+
+          setUser(currentUser);
+
+          if (unsubscribeCart) {
+            unsubscribeCart();
+          }
+
+          unsubscribeCart =
+            subscribeToCart(
+              currentUser.uid,
+
+              (cart) => {
+                setCartCount(
+                  cart.length
+                );
+              },
+
+              (error) => {
+                console.error(
+                  "NAVBAR CART ERROR:",
+                  error
+                );
+
+                setCartCount(0);
+              }
+            );
+        }
+      );
 
     return () => {
-      window.removeEventListener("storage", updateCartCount);
-      window.removeEventListener("thriftmatch-cart-updated", updateCartCount);
-    };
-  }, []);
+      unsubscribeAuth();
 
-  if (isHomePage) return null;
+      if (unsubscribeCart) {
+        unsubscribeCart();
+      }
+    };
+  }, [pathname]);
+
+  /*
+   * The homepage already has its own custom header.
+   */
+  if (pathname === "/") {
+    return null;
+  }
 
   return (
-    <nav className="flex items-center justify-between bg-[#f5f1e8] px-8 py-6 text-[#171717]">
-      <a href="/" className="flex items-center gap-3 text-2xl font-bold tracking-tight">
+    <header className="relative z-50 flex items-center justify-between bg-[#f7f3eb] px-8 py-4 text-[#171512]">
+
+      {/* Logo */}
+      <Link
+        href="/"
+        className="flex items-center gap-3"
+      >
         <img
-          src="/logo.jpeg"
-          alt="ThriftMatch logo"
-          className="h-15 w-15 object-contain"
+          src="/logo2.png"
+          alt="ThriftMatch"
+          className="h-12 w-12 object-contain"
         />
-        <span>ThriftMatch</span>
-      </a>
 
-      <div className="hidden items-center gap-8 text-sm font-medium md:flex">
-        {!checking && user && isMarketplacePage && (
-          <>
-            <a href="/Discover" className="transition hover:opacity-60">
-              Discover
-            </a>
+        <span className="text-2xl font-black">
+          ThriftMatch
+        </span>
+      </Link>
 
-            <a
-              href="/cart"
-              aria-label={`Cart${cartCount ? `, ${cartCount} items` : ""}`}
-              title="Cart"
-              className="relative transition hover:opacity-60"
-            >
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-              >
-                <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L21 8H6" />
-                <circle cx="10" cy="20" r="1" />
-                <circle cx="18" cy="20" r="1" />
-              </svg>
-              {cartCount > 0 && (
-                <span className="absolute -right-3 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c6a15b] px-1 text-[10px] font-bold text-[#171717]">
-                  {cartCount > 9 ? "9+" : cartCount}
-                </span>
-              )}
-            </a>
-          </>
-        )}
+      {/* Navigation */}
+      <div className="flex items-center gap-7">
 
-        {isHomePage && (
-          <a href="/Sellers" className="transition hover:opacity-60">
-            For Sellers
-          </a>
-        )}
+        <Link
+          href="/Discover"
+          className="text-sm font-semibold transition hover:opacity-60"
+        >
+          Discover
+        </Link>
 
-        {checking ? null : user ? (
+        {/* Cart */}
+        <Link
+          href="/cart"
+          className="relative flex items-center"
+          aria-label={`Cart with ${cartCount} items`}
+        >
+          <img
+            src="/cart.png"
+            alt="Cart"
+            className="h-7 w-7 object-contain"
+          />
+
+          {cartCount > 0 && (
+            <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c6a15b] px-1 text-[10px] font-black text-[#171512]">
+              {cartCount}
+            </span>
+          )}
+        </Link>
+
+        {/* User */}
+        {user ? (
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#171717] text-sm font-bold text-white">
-              {user.email?.[0]?.toUpperCase()}
+
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#171512] text-sm font-black text-white">
+              {user.email?.[0]?.toUpperCase() ||
+                "H"}
             </div>
+
             <button
-              onClick={() => signOut(auth)}
-              className="text-sm font-medium hover:opacity-60"
+              type="button"
+              onClick={() =>
+                signOut(auth)
+              }
+              className="text-sm font-semibold transition hover:opacity-60"
             >
               Sign out
             </button>
+
           </div>
         ) : (
-          <a
+          <Link
             href="/sign-in"
-            className="rounded-full bg-[#171717] px-5 py-2.5 text-white hover:scale-105 transition"
+            className="rounded-full bg-[#171512] px-6 py-3 text-sm font-bold text-white transition hover:opacity-80"
           >
             Sign In
-          </a>
+          </Link>
         )}
+
       </div>
-    </nav>
+
+    </header>
   );
 }

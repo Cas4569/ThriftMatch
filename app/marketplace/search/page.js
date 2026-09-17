@@ -4,6 +4,10 @@ import { useSearchParams } from "next/navigation";
 import { menswearProducts } from "../menswearProducts";
 import { womenswearProducts } from "../womenswearProducts";
 
+function createProductId(name) {
+  return encodeURIComponent(name);
+}
+
 export default function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
@@ -126,7 +130,8 @@ export default function SearchResults() {
       category: "Outerwear",
       tag: "",
       image: "",
-      keywords: "brown jacket leather classic vintage smart casual womenswear",
+      keywords:
+        "brown jacket leather classic vintage smart casual womenswear",
     },
     {
       name: "Classic Black Handbag",
@@ -190,12 +195,15 @@ export default function SearchResults() {
 
         {results.length > 0 ? (
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
             {results.map((product, index) => (
               <div
                 key={`${product.name}-${index}`}
                 className="group overflow-hidden rounded-[2rem] border border-[#3b3832] bg-[#24221e] transition duration-300 hover:-translate-y-2 hover:border-[#c6a15b] hover:shadow-2xl"
               >
+
                 <div className="relative flex h-16 items-center justify-between border-b border-[#3b3832] px-6">
+
                   <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#aaa399]">
                     {product.gender}
                   </p>
@@ -203,9 +211,11 @@ export default function SearchResults() {
                   <span className="rounded-full bg-[#171512] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#c6a15b]">
                     {product.category}
                   </span>
+
                 </div>
 
                 <div className="p-7">
+
                   {product.tag && (
                     <p className="text-xs font-bold uppercase tracking-widest text-[#c6a15b]">
                       {product.tag}
@@ -213,6 +223,7 @@ export default function SearchResults() {
                   )}
 
                   <div className="mt-3 flex items-center gap-4">
+
                     {product.image && (
                       <img
                         src={product.image}
@@ -224,19 +235,30 @@ export default function SearchResults() {
                     <h2 className="text-2xl font-black">
                       {product.name}
                     </h2>
+
                   </div>
 
                   <div className="mt-7 flex justify-end">
-                    <button className="rounded-full border border-[#5a5348] px-5 py-2.5 text-sm font-bold transition hover:bg-[#c6a15b] hover:text-[#171512]">
+
+                    <a
+                      href={`/marketplace/product/${createProductId(
+                        product.name
+                      )}`}
+                      className="rounded-full border border-[#5a5348] px-5 py-2.5 text-sm font-bold transition hover:bg-[#c6a15b] hover:text-[#171512]"
+                    >
                       View →
-                    </button>
+                    </a>
+
                   </div>
+
                 </div>
               </div>
             ))}
+
           </div>
         ) : (
           <div className="mt-14 rounded-[2rem] border border-[#3b3832] bg-[#24221e] p-10">
+
             <h2 className="text-2xl font-black">
               No matching pieces found.
             </h2>
@@ -245,6 +267,7 @@ export default function SearchResults() {
               Try another search such as white t-shirts, sneakers,
               jeans or jackets.
             </p>
+
           </div>
         )}
 
