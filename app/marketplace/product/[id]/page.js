@@ -1,44 +1,56 @@
 import { notFound } from "next/navigation";
-import { menswearProducts } from "../../menswearProducts";
-import { womenswearProducts } from "../../womenswearProducts";
+import { doc, getDoc, collection, query, where, getDocs, limit } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import ProductActions from "../../../components/ProductActions";
 
-function decodeProductId(id) {
-  try {
-    return decodeURIComponent(id);
-  } catch {
-    return id;
+async function findProduct(id) {
+  const directRef = doc(db, "products", id);
+  const directSnap = await getDoc(directRef);
+
+  if (directSnap.exists()) {
+    return { id: directSnap.id, ...directSnap.data() };
   }
+
+  let decodedId = id;
+  try {
+    decodedId = decodeURIComponent(id);
+  } catch {
+    decodedId = id;
+  }
+
+  if (decodedId !== id) {
+    const decodedRef = doc(db, "products", decodedId);
+    const decodedSnap = await getDoc(decodedRef);
+
+    if (decodedSnap.exists()) {
+      return { id: decodedSnap.id, ...decodedSnap.data() };
+    }
+  }
+
+  const nameQuery = query(
+    collection(db, "products"),
+    where("name", "==", decodedId),
+    limit(1)
+  );
+
+  const nameSnapshot = await getDocs(nameQuery);
+
+  if (!nameSnapshot.empty) {
+    const nameDoc = nameSnapshot.docs[0];
+    return { id: nameDoc.id, ...nameDoc.data() };
+  }
+
+  return null;
 }
 
 export default async function ProductPage({ params }) {
   const { id } = await params;
 
-  const productName = decodeProductId(id);
+  const product = await findProduct(id);
 
-  const allProducts = [
-    ...menswearProducts.map((product) => ({
-      ...product,
-      gender: "Menswear",
-    })),
-    ...womenswearProducts.map((product) => ({
-      ...product,
-      gender: "Womenswear",
-    })),
-  ];
-
-  const foundProduct = allProducts.find(
-    (product) => product.name === productName
-  );
-
-  if (!foundProduct) {
+  if (!product) {
     notFound();
   }
-
-  const product = {
-    id: encodeURIComponent(foundProduct.name),
-    ...foundProduct,
-  };
 
   const description =
     product.description ||
@@ -49,19 +61,15 @@ export default async function ProductPage({ params }) {
   return (
     <main className="min-h-screen bg-[#171512] px-6 py-14 text-[#f5f0e8]">
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-2 md:items-center">
-
         <div className="overflow-hidden rounded-4xl border border-[#3b3832] bg-[#24221e]">
-
           <img
             src={product.image}
             alt={product.name}
             className="aspect-square h-full w-full object-cover"
           />
-
         </div>
 
         <div>
-
           <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-[#c6a15b]">
             THRIFTMATCH / {product.category || "PRODUCT"}
           </p>
@@ -85,7 +93,6 @@ export default async function ProductPage({ params }) {
           <p className="mt-8 text-xs uppercase tracking-[0.2em] text-[#777168]">
             Product ID: {product.id}
           </p>
-
         </div>
       </div>
     </main>
