@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-export default function SearchResults() {
+/*
+|--------------------------------------------------------------------------
+| SEARCH RESULTS
+|--------------------------------------------------------------------------
+*/
+
+function SearchResults() {
   const searchParams = useSearchParams();
 
   const query = searchParams.get("query") || "";
@@ -14,6 +20,12 @@ export default function SearchResults() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  /*
+  |--------------------------------------------------------------------------
+  | LOAD PRODUCTS
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
     async function loadProducts() {
@@ -49,6 +61,12 @@ export default function SearchResults() {
 
     loadProducts();
   }, []);
+
+  /*
+  |--------------------------------------------------------------------------
+  | SEARCH / FILTER
+  |--------------------------------------------------------------------------
+  */
 
   const normalizedQuery =
     query.toLowerCase().trim();
@@ -88,9 +106,17 @@ export default function SearchResults() {
     );
   });
 
+  /*
+  |--------------------------------------------------------------------------
+  | PAGE
+  |--------------------------------------------------------------------------
+  */
+
   return (
     <main className="min-h-screen bg-[#0f0616] px-6 py-14 text-[#f5f0e8]">
       <div className="mx-auto max-w-7xl">
+
+        {/* Header */}
 
         <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-[#c6a15b]">
           THRIFTMATCH / SEARCH
@@ -102,15 +128,24 @@ export default function SearchResults() {
             : "Search"}
         </h1>
 
+        {/* Loading */}
+
         {loading ? (
           <p className="mt-8 text-lg text-[#b9b2a7]">
             Loading products...
           </p>
         ) : error ? (
+
+          /* Error */
+
           <div className="mt-8 rounded-2xl border border-red-900/50 bg-red-950/20 px-6 py-5 text-lg text-red-300">
             {error}
           </div>
+
         ) : (
+
+          /* Results */
+
           <>
             <p className="mt-5 text-lg text-[#b9b2a7]">
               {results.length}{" "}
@@ -122,6 +157,7 @@ export default function SearchResults() {
             </p>
 
             {results.length > 0 ? (
+
               <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
                 {results.map(
@@ -132,6 +168,7 @@ export default function SearchResults() {
                     >
 
                       {/* Product header */}
+
                       <div className="relative flex h-16 items-center justify-between border-b border-[#3b3832] px-6">
 
                         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#aaa399]">
@@ -147,13 +184,18 @@ export default function SearchResults() {
                       </div>
 
                       {/* Product content */}
+
                       <div className="p-7">
+
+                        {/* Tag */}
 
                         {product.tag && (
                           <p className="text-xs font-bold uppercase tracking-widest text-[#c6a15b]">
                             {product.tag}
                           </p>
                         )}
+
+                        {/* Image + name */}
 
                         <div className="mt-3 flex items-center gap-4">
 
@@ -175,6 +217,7 @@ export default function SearchResults() {
                         </div>
 
                         {/* View button */}
+
                         <div className="mt-7 flex justify-end">
 
                           <a
@@ -193,7 +236,11 @@ export default function SearchResults() {
                 )}
 
               </div>
+
             ) : (
+
+              /* No results */
+
               <div className="mt-14 rounded-[2rem] border border-[#3b3832] bg-[#24221e] p-10">
 
                 <h2 className="text-2xl font-black">
@@ -207,11 +254,66 @@ export default function SearchResults() {
                 </p>
 
               </div>
+
             )}
+
           </>
         )}
 
       </div>
     </main>
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| LOADING FALLBACK
+|--------------------------------------------------------------------------
+*/
+
+function SearchPageLoading() {
+  return (
+    <main className="min-h-screen bg-[#0f0616] px-6 py-14 text-[#f5f0e8]">
+      <div className="mx-auto max-w-7xl">
+
+        <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-[#c6a15b]">
+          THRIFTMATCH / SEARCH
+        </p>
+
+        <h1 className="text-5xl font-black tracking-tight md:text-7xl">
+          Search
+        </h1>
+
+        <p className="mt-8 text-lg text-[#b9b2a7]">
+          Loading search...
+        </p>
+
+      </div>
+    </main>
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| PAGE EXPORT
+|--------------------------------------------------------------------------
+|
+| IMPORTANT:
+| useSearchParams() is inside SearchResults.
+| SearchResults is wrapped in Suspense.
+| This prevents the production Vercel build
+| from failing during prerendering.
+|--------------------------------------------------------------------------
+*/
+
+export default function SearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <SearchPageLoading />
+      }
+    >
+      <SearchResults />
+    </Suspense>
   );
 }
