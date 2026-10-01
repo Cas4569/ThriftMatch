@@ -48,10 +48,98 @@ export default function SignIn() {
     }, 2000);
   }
 
+  /*
+   * -------------------------------------------------------
+   * ROUTE USER AFTER AUTHENTICATION
+   * -------------------------------------------------------
+   *
+   * Approved sellers should go to:
+   *
+   * /seller/dashboard
+   *
+   * Everyone else goes to:
+   *
+   * /marketplace
+   *
+   * The seller check is done through our protected
+   * server API route. We do NOT trust client-side
+   * Firestore status checks here.
+   */
+  async function routeAfterAuthentication() {
+    const user =
+      auth.currentUser;
+
+    if (!user) {
+      router.push(
+        "/marketplace"
+      );
+
+      return;
+    }
+
+    try {
+      /*
+       * Get the Firebase ID token for the
+       * currently signed-in user.
+       */
+      const token =
+        await user.getIdToken();
+
+      /*
+       * Ask our server whether this email belongs
+       * to an approved seller.
+       */
+      const response =
+        await fetch(
+          "/api/seller/me",
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
+
+      /*
+       * Approved seller.
+       */
+      if (response.ok) {
+        router.push(
+          "/seller/dashboard"
+        );
+
+        return;
+      }
+
+      /*
+       * Not an approved seller.
+       *
+       * This includes normal buyers,
+       * pending sellers and rejected sellers.
+       */
+    } catch (routeError) {
+      /*
+       * Do not prevent normal users from entering
+       * the marketplace if the seller check fails.
+       */
+      console.error(
+        "SELLER REDIRECT CHECK ERROR:",
+        routeError
+      );
+    }
+
+    router.push(
+      "/marketplace"
+    );
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (loading || cooldown) {
+    if (
+      loading ||
+      cooldown
+    ) {
       return;
     }
 
@@ -76,12 +164,18 @@ export default function SignIn() {
       }
 
       if (isSignUp) {
+        /*
+         * Create Firebase account.
+         */
         await createUserWithEmailAndPassword(
           auth,
           cleanEmail,
           password
         );
       } else {
+        /*
+         * Existing Firebase account.
+         */
         await signInWithEmailAndPassword(
           auth,
           cleanEmail,
@@ -91,10 +185,11 @@ export default function SignIn() {
 
       /*
        * Successful authentication.
+       *
+       * Approved sellers go to the seller dashboard.
+       * Everyone else goes to the marketplace.
        */
-      router.push(
-        "/marketplace"
-      );
+      await routeAfterAuthentication();
     } catch (err) {
       console.error(
         "Authentication error:",
@@ -191,7 +286,10 @@ export default function SignIn() {
   }
 
   async function handleGoogleSignIn() {
-    if (loading || cooldown) {
+    if (
+      loading ||
+      cooldown
+    ) {
       return;
     }
 
@@ -208,9 +306,11 @@ export default function SignIn() {
         provider
       );
 
-      router.push(
-        "/marketplace"
-      );
+      /*
+       * Same routing logic as normal
+       * email/password authentication.
+       */
+      await routeAfterAuthentication();
     } catch (err) {
       console.error(
         "Google authentication error:",
@@ -259,6 +359,7 @@ export default function SignIn() {
 
   function toggleMode() {
     setError("");
+
     setIsSignUp(
       (previous) =>
         !previous

@@ -54,9 +54,9 @@ export default function Home() {
     <main
       className="relative min-h-screen overflow-hidden text-white"
       style={{
-        backgroundImage: "url('/bg.jpg')",
+        backgroundImage: "url('/newbg.jpeg')",
         backgroundPosition: "center top",
-        backgroundSize: "100% auto",
+        backgroundSize: "125% auto",
         backgroundRepeat: "no-repeat",
         backgroundColor: "#087fb6",
       }}
@@ -157,18 +157,6 @@ export default function Home() {
         onMouseLeave={handleMouseLeave}
         className="relative z-10 mx-auto min-h-[80vh] max-w-7xl px-8 py-6 [perspective:1400px]"
       >
-        {/* Glowing orbit ring */}
-        <div
-          className="pointer-events-none absolute left-1/2 top-[28%] h-[90px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-          style={{
-            border: "3px solid rgba(255,255,255,0.75)",
-            boxShadow:
-              "0 0 25px rgba(255,255,255,0.6), 0 0 60px rgba(120,200,255,0.4)",
-            transform:
-              "translate(-50%, -50%) rotate(-6deg)",
-          }}
-        />
-
         {/* Center copy */}
         <div className="relative z-10 mx-auto max-w-2xl rounded-[2rem] border border-white/25 bg-[#062d50]/25 px-8 pb-8 pt-6 text-center shadow-[0_18px_45px_rgba(0,25,65,0.3)] backdrop-blur-[2px]">
           <h2

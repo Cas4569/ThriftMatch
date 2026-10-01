@@ -3,9 +3,9 @@ return (
 <main
   className="relative min-h-screen overflow-hidden px-6 py-14 text-white"
   style={{
-    backgroundImage: "url('/marketplace.jpeg')",
+    backgroundImage: "url('/bg4.jpeg')",
     backgroundPosition: "center top",
-    backgroundSize: "100% auto",
+    backgroundSize: "125% auto",
     backgroundRepeat: "no-repeat",
     backgroundColor: "#087fb6",
   }}
