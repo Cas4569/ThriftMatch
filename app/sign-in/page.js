@@ -53,6 +53,10 @@ export default function SignIn() {
    * ROUTE USER AFTER AUTHENTICATION
    * -------------------------------------------------------
    *
+   * Admins should go to:
+   *
+   * /admin/sellers
+   *
    * Approved sellers should go to:
    *
    * /seller/dashboard
@@ -84,6 +88,38 @@ export default function SignIn() {
        */
       const token =
         await user.getIdToken();
+
+      /*
+       * Ask the server whether this user is an
+       * authorized admin before checking seller status.
+       */
+      const adminResponse =
+        await fetch(
+          "/api/admin/check",
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
+
+      if (adminResponse.ok) {
+        router.replace(
+          "/admin/sellers"
+        );
+
+        return;
+      }
+
+      if (
+        adminResponse.status !== 403
+      ) {
+        console.error(
+          "ADMIN REDIRECT CHECK FAILED:",
+          adminResponse.status
+        );
+      }
 
       /*
        * Ask our server whether this email belongs
@@ -184,10 +220,10 @@ export default function SignIn() {
       }
 
       /*
-       * Successful authentication.
-       *
-       * Approved sellers go to the seller dashboard.
-       * Everyone else goes to the marketplace.
+       * Successful authentication. Admins go to
+       * seller approvals, approved sellers go to
+       * their dashboard, and everyone else goes to
+       * the marketplace.
        */
       await routeAfterAuthentication();
     } catch (err) {
