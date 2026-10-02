@@ -30,5 +30,8 @@
     "@firebase/util@1.15.3": true,
     "protobufjs@7.6.6": true,
     "unrs-resolver@1.12.2": true
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
