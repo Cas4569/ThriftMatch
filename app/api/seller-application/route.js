@@ -444,14 +444,22 @@ export async function POST(request) {
       error
     );
 
+    const isConfigurationError =
+      error?.code ===
+      "FIREBASE_ADMIN_CONFIG";
+
     return Response.json(
       {
         error:
-          error?.message ||
-          "Something went wrong while saving your seller application.",
+          isConfigurationError
+            ? "Seller applications cannot be saved yet. Configure Firebase Admin credentials in the Vercel project and redeploy."
+            : "We couldn't save your application right now. Please try again later.",
       },
       {
-        status: 500,
+        status:
+          isConfigurationError
+            ? 503
+            : 500,
 
         headers: {
           "X-RateLimit-Limit":

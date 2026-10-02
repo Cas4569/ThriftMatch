@@ -5,6 +5,9 @@
 .env.test.local
 .env.production.local
 
+# Firebase Admin service account
+/thriftmatch-127c8-firebase-adminsdk-fbsvc-f6d8375553.json
+
 # Next.js
 .next/
 out/
