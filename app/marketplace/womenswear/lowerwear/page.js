@@ -1,18 +1,14 @@
-import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+"use client";
 
-export default async function WomenswearLowerwear() {
-  const q = query(
-    collection(db, "products"),
-    where("category", "==", "womenswear"),
-    where("subcategory", "==", "lowerwear")
+import useCategoryProducts, {
+  CategoryProductsStatus,
+} from "@/app/marketplace/useCategoryProducts";
+
+export default function WomenswearLowerwear() {
+  const { products, loading, error } = useCategoryProducts(
+    "womenswear",
+    "lowerwear"
   );
-
-  const snapshot = await getDocs(q);
-  const products = snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#09040f] px-6 py-14 text-[#f7efff]">
@@ -97,6 +93,12 @@ export default async function WomenswearLowerwear() {
           </p>
 
         </div>
+
+        <CategoryProductsStatus
+          loading={loading}
+          error={error}
+          count={products.length}
+        />
 
         {/* Products */}
         <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
