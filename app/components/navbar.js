@@ -92,30 +92,30 @@ export default function Navbar() {
   }
 
   return (
-    <header className="relative z-50 flex items-center justify-between bg-[#f7f3eb] px-8 py-4 text-[#171512]">
+    <header className="relative z-50 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 bg-[#f7f3eb] px-4 py-3 text-[#171512] sm:flex-nowrap sm:px-8 sm:py-4">
 
       {/* Logo */}
       <Link
         href="/"
-        className="flex items-center gap-3"
+        className="flex shrink-0 items-center gap-2 sm:gap-3"
       >
         <img
           src="/logo2.png"
           alt="ThriftMatch"
-          className="h-12 w-12 object-contain"
+          className="h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12"
         />
 
-        <span className="text-2xl font-black">
+        <span className="whitespace-nowrap text-xl font-black sm:text-2xl">
           ThriftMatch
         </span>
       </Link>
 
       {/* Navigation */}
-      <div className="flex items-center gap-7">
+      <div className="ml-auto flex shrink-0 items-center gap-4 sm:gap-7">
 
         <Link
           href="/Discover"
-          className="text-sm font-semibold transition hover:opacity-60"
+          className="whitespace-nowrap text-xs font-semibold transition hover:opacity-60 sm:text-sm"
         >
           Discover
         </Link>
@@ -129,7 +129,7 @@ export default function Navbar() {
           <img
             src="/cart.png"
             alt="Cart"
-            className="h-7 w-7 object-contain"
+            className="h-6 w-6 object-contain sm:h-7 sm:w-7"
           />
 
           {cartCount > 0 && (
@@ -141,9 +141,9 @@ export default function Navbar() {
 
         {/* User */}
         {user ? (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
 
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#171512] text-sm font-black text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#171512] text-xs font-black text-white sm:h-10 sm:w-10 sm:text-sm">
               {user.email?.[0]?.toUpperCase() ||
                 "H"}
             </div>
@@ -153,7 +153,7 @@ export default function Navbar() {
               onClick={() =>
                 signOut(auth)
               }
-              className="text-sm font-semibold transition hover:opacity-60"
+              className="whitespace-nowrap text-xs font-semibold transition hover:opacity-60 sm:text-sm"
             >
               Sign out
             </button>
@@ -162,7 +162,7 @@ export default function Navbar() {
         ) : (
           <Link
             href="/sign-in"
-            className="rounded-full bg-[#171512] px-6 py-3 text-sm font-bold text-white transition hover:opacity-80"
+            className="whitespace-nowrap rounded-full bg-[#171512] px-4 py-2 text-xs font-bold text-white transition hover:opacity-80 sm:px-6 sm:py-3 sm:text-sm"
           >
             Sign In
           </Link>
