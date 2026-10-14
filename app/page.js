@@ -71,14 +71,14 @@ export default function Home() {
 
       {/* Header */}
       <header
-        className="relative z-50 flex items-center justify-between px-8 py-6"
+        className="relative z-50 flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-6"
         style={{
           textShadow: "0 2px 5px rgba(0,25,65,0.9)",
         }}
       >
         {/* Logo + ThriftMatch */}
-        <div className="flex items-center gap-3">
-          <div className="flex h-20 w-20 items-center">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex h-12 w-12 items-center sm:h-20 sm:w-20">
             <img
               src="/logo2.png"
               alt="ThriftMatch logo"
@@ -86,13 +86,13 @@ export default function Home() {
             />
           </div>
 
-          <span className="text-xl font-bold tracking-tight">
+          <span className="text-base font-bold tracking-tight sm:text-xl">
             ThriftMatch
           </span>
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-6 text-sm font-semibold">
+        <div className="flex items-center justify-end gap-5 text-xs font-semibold sm:gap-6 sm:text-sm">
           <a
             href="/Sellers"
             className="transition hover:opacity-70"
@@ -154,12 +154,12 @@ export default function Home() {
         ref={stageRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative z-10 mx-auto min-h-[80vh] max-w-7xl px-8 py-6 [perspective:1400px]"
+        className="relative z-10 mx-auto min-h-[80vh] max-w-7xl px-4 py-6 [perspective:1400px] sm:px-8"
       >
         {/* Center copy */}
-        <div className="relative z-10 mx-auto max-w-2xl rounded-[2rem] border border-white/25 bg-[#062d50]/25 px-8 pb-8 pt-6 text-center shadow-[0_18px_45px_rgba(0,25,65,0.3)] backdrop-blur-[2px]">
+        <div className="relative z-10 mx-auto max-w-2xl rounded-[2rem] border border-white/25 bg-[#062d50]/35 px-5 pb-7 pt-6 text-center shadow-[0_18px_45px_rgba(0,25,65,0.3)] backdrop-blur-[2px] sm:px-8 sm:pb-8">
           <h2
-            className="text-6xl font-black leading-[1.02] tracking-tight md:text-8xl"
+            className="text-4xl font-black leading-[1.02] tracking-tight sm:text-6xl md:text-8xl"
             style={{
               WebkitTextStroke:
                 "1px rgba(0,35,75,0.8)",
@@ -235,7 +235,7 @@ export default function Home() {
 
         {/* Floating garment frame 1 */}
         <div
-          className="float-slow absolute left-[4%] top-[6%] h-[340px] w-[170px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
+          className="float-slow absolute left-[4%] top-[6%] hidden h-[340px] w-[170px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out md:block"
           style={{
             ...chromeFrame,
             transform: `rotate3d(${-tilt.y}, ${
@@ -258,7 +258,7 @@ export default function Home() {
 
         {/* Floating garment frame 2 */}
         <div
-          className="float-medium absolute right-[6%] top-[2%] h-[410px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
+          className="float-medium absolute right-[6%] top-[2%] hidden h-[410px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out md:block"
           style={{
             ...chromeFrame,
             transform: `rotate3d(${-tilt.y}, ${
@@ -281,7 +281,7 @@ export default function Home() {
 
         {/* Floating garment frame 3 */}
         <div
-          className="float-fast absolute bottom-[8%] left-[10%] h-[340px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
+          className="float-fast absolute bottom-[8%] left-[10%] hidden h-[340px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out md:block"
           style={{
             ...chromeFrame,
             transform: `rotate3d(${tilt.y}, ${
@@ -304,7 +304,7 @@ export default function Home() {
 
         {/* Floating garment frame 4 */}
         <div
-          className="float-medium absolute bottom-[4%] right-[10%] h-[340px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out"
+          className="float-medium absolute bottom-[4%] right-[10%] hidden h-[340px] w-[150px] rounded-[1.5rem] p-[6px] transition-transform duration-150 ease-out md:block"
           style={{
             ...chromeFrame,
             transform: `rotate3d(${tilt.y}, ${
@@ -327,7 +327,7 @@ export default function Home() {
 
         {/* Hanging AI match tag */}
         <div
-          className="swing absolute right-[28%] top-[-8%] z-30 origin-top"
+          className="swing absolute right-[28%] top-[-8%] z-30 hidden origin-top sm:block"
           style={{
             transform: `translate3d(${
               tilt.x * 15
@@ -355,7 +355,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-50 flex items-center justify-between px-8 py-6 font-mono text-[10px] uppercase tracking-[0.2em] text-white/80">
+      <footer className="relative z-50 flex flex-col items-start gap-2 px-4 py-5 font-mono text-[9px] uppercase tracking-[0.2em] text-white/80 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-6 sm:text-[10px]">
         <span>One rack. Every neighborhood.</span>
         <span>Built by thrifters, for thrifters.</span>
       </footer>

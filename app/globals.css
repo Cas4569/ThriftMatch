@@ -31,6 +31,7 @@ body {
 
 @media (max-width: 767px) {
   .mobile-cover-background {
-    background-size: cover;
+    background-attachment: fixed;
+    background-size: auto 100vh;
   }
 }
