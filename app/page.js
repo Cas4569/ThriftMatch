@@ -52,11 +52,10 @@ export default function Home() {
 
   return (
     <main
-      className="relative min-h-screen overflow-hidden text-white"
+      className="mobile-cover-background relative min-h-screen overflow-hidden text-white"
       style={{
         backgroundImage: "url('/newbg.jpeg')",
         backgroundPosition: "center top",
-        backgroundSize: "125% auto",
         backgroundRepeat: "no-repeat",
         backgroundColor: "#087fb6",
       }}

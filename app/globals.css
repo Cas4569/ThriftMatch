@@ -24,3 +24,13 @@ body {
   color: var(--foreground);
   font-family: var(--font-playfair), serif;
 }
+
+.mobile-cover-background {
+  background-size: 125% auto;
+}
+
+@media (max-width: 767px) {
+  .mobile-cover-background {
+    background-size: cover;
+  }
+}
